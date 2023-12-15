@@ -6,12 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="project-system-boot" />
         <module name="ProjectFX" />
-        <module name="project-module-utils" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="project-module-base" target="17" />
+      <module name="project-module-utils" target="17" />
+      <module name="project-system-boot" target="17" />
       <module name="ProjectFX (1)" target="17" />
       <module name="ProjectFX (2)" target="1.5" />
     </bytecodeTargetLevel>
