@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.example.base;
 
 import com.example.base.User;
 

@@ -1,7 +1,7 @@
-package com.example.base;
+package com.example.utils;
 
-import com.example.utils.DBUtil;
-import com.example.utils.UserDao;
+import com.example.base.User;
+import com.example.base.UserDao;
 
 import java.sql.ResultSet;
 import java.util.LinkedList;

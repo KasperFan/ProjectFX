@@ -10,4 +10,6 @@ module com.example.projectsystemboot {
 
     opens com.example.projectfx to javafx.fxml;
     exports com.example.projectfx;
+    exports com.example.boot;
+    opens com.example.boot to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package com.example.projectfx;
+package com.example.boot;
 
 import com.example.utils.DBUtil;
 import com.example.utils.SHA256;
