@@ -7,39 +7,48 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserDaoImpl implements UserDao, AutoCloseable {
-    private static String adusrsql = "INSERT INTO `user_list` (`id`, `name`, `pswd_sha`) VALUES (?, '?', '?')";
-    private static String apdteusrsql = "UPDATE `user_list` SET `pswd_sha` = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' WHERE `SID` = 1";
-    private static String deusrsql = "DELETE FROM `user_list` where `id` = ?";
-    private static String getusrsql = "SELECT `id`, `name`, `pswd_sha` FROM `user_list` ? ?";
-    private DBUtil dbutil = null;
+public class UserDaoImpl extends DBUtil implements UserDao, AutoCloseable {
+    private String addSQL = "INSERT INTO `%s` (%s) VALUES (%s)";
+    private String updateSQL = "UPDATE `%s` SET %s WHERE %s";
+    private String deleteSQL = "DELETE FROM `%s` WHERE %s";
+    private String getSQL = "SELECT %s FROM `%s` %s";
+    private String sentence = "WHERE %s";
 
-    public UserDaoImpl(String dbName, String user, String password) {
-        this("localhost", 3306, dbName, user, password);
+    public UserDaoImpl(String dbName, String user, String password, String tableName, String userIdHead,
+                       String userNameHead, String userPasswordHead) {
+        this("localhost", 3306, dbName, user, password, tableName, userIdHead,
+                userNameHead, userPasswordHead);
     }
 
-    public UserDaoImpl(String hostName, int port, String dbName, String user, String password) {
-        dbutil = DBUtil.dbUtil(hostName, port, dbName, user, password);
+    public UserDaoImpl(String hostName, int port, String dbName, String user, String password, String tableName,
+                       String userIdHead, String userNameHead, String userPasswordHead) {
+        super(hostName, port, dbName, user, password);
+        addSQL = String.format(addSQL, tableName, String.format("`%s`, `%s`, `%s`", userIdHead, userNameHead, userPasswordHead), "? ? ?");
+        updateSQL = String.format(updateSQL, tableName, String.format("`%s` = ?, `%s` = ?", userNameHead, userPasswordHead), String.format("`%s` = ?", userIdHead));
+        deleteSQL = String.format(deleteSQL, tableName, String.format("`%s` = ?", userIdHead));
+        getSQL = String.format(getSQL, String.format("`%s`, `%s`, `%s`", userIdHead, userNameHead, userPasswordHead), tableName, "%s");
+        sentence = String.format(sentence, String.format("`%s` = ?", userIdHead));
     }
+
 
     @Override
     public boolean addUser(User user) throws Exception {
-        return dbutil.executeUpdate(adusrsql, String.valueOf(user.getId()), user.getName(), user.getPassword()) > 0;
+        return super.executeUpdate(addSQL, user.getId(), user.getName(), user.getPassword()) > 0;
     }
 
     @Override
     public boolean updateUser(User user) throws Exception {
-        return dbutil.executeUpdate(apdteusrsql, String.valueOf(user.getId()), user.getName(), user.getPassword()) > 0;
+        return super.executeUpdate(updateSQL, user.getName(), user.getPassword(), user.getId()) > 0;
     }
 
     @Override
     public boolean deleteUser(int id) throws Exception {
-        return dbutil.executeUpdate(deusrsql, String.valueOf(id)) > 0;
+        return super.executeUpdate(deleteSQL, id) > 0;
     }
 
     @Override
     public User getUserById(int id) throws Exception {
-        ResultSet rst = dbutil.executeQuery(getusrsql, "WHERE", "`id` = "+ id);
+        ResultSet rst = super.executeQuery(String.format(getSQL, sentence), id);
         if (rst.next()) {
             return new User(rst.getInt(1), rst.getString(2), rst.getString(3));
         }
@@ -49,15 +58,15 @@ public class UserDaoImpl implements UserDao, AutoCloseable {
     @Override
     public List<User> getAllUser() throws Exception {
         List<User> userList = new LinkedList<>();
-        ResultSet rst = dbutil.executeQuery(getusrsql, "");
+        ResultSet rst = super.executeQuery(String.format(getSQL, "LIMIT ?"), 100);
         while (rst.next()) {
-             userList.add(new User(rst.getInt(1), rst.getString(2), rst.getString(3)));
+            userList.add(new User(rst.getInt(1), rst.getString(2), rst.getString(3)));
         }
         return userList;
     }
 
     @Override
-    public void close() throws Exception {
-        dbutil.close();
+    public void close() {
+        super.close();
     }
 }

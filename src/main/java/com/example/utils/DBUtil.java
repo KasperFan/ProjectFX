@@ -12,8 +12,15 @@ public class DBUtil implements AutoCloseable {
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
 
-    private DBUtil() {
+
+    public DBUtil(String dbName, String user, String password) {
+        this("localhost", 3306, dbName, user, password);
     }
+
+    public DBUtil(String hostName, int port, String dbName, String user, String password) {
+        this.getConnection(hostName, port, dbName, user, password);
+    }
+
 
     @NotNull
     public static DBUtil dbUtil(String dbName, String user, String password) {
@@ -22,9 +29,7 @@ public class DBUtil implements AutoCloseable {
 
     @NotNull
     public static DBUtil dbUtil(String hostName, int port, String dbName, String user, String password) {
-        var dbutil = new DBUtil();
-        dbutil.getConnection(hostName, port, dbName, user, password);
-        return dbutil;
+        return new DBUtil(hostName, port, dbName, user, password);
     }
 
     /**
@@ -32,12 +37,9 @@ public class DBUtil implements AutoCloseable {
      */
     private void getConnection(String hostName, int port, String dbName, String user, String password) {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
-//        StringBuilder DBUrlBuffer = new StringBuilder("jdbc:mysql://localhost:3306/?&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC");
-//        DBUrlBuffer.insert(28, dbName);
         // 注册驱动
         try {
             dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
-//            dataSource.setJdbcUrl(DBUrlBuffer.toString());
             dataSource.setJdbcUrl("jdbc:mysql://" + hostName + ":" + port + "/" + dbName + "?&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC");
             dataSource.setUser(user);
             dataSource.setPassword(password);
@@ -87,23 +89,23 @@ public class DBUtil implements AutoCloseable {
     /**
      * 执行SQL语句，可以进行查询操作。
      */
-    public ResultSet executeQuery(String preparedSql, String... param) {
+    public ResultSet executeQuery(String preparedSql, Object... param) throws SQLException {
         if (conn != null) {
-            // 处理SQL，执行SQL
-            try {
-                // 得到prepareStatement对象
-                pstmt = conn.prepareStatement(preparedSql);
-                if (pstmt != null && param.length > 0) {
-                    for (int i = 0; i < param.length; i++) {
-                        // 为预编译sql设置参数
-                        pstmt.setString(i + 1, param[i]);
+            // 得到prepareStatement对象
+            pstmt = conn.prepareStatement(preparedSql);
+            if (pstmt != null && param.length > 0) {
+                for (int i = 0; i < param.length; i++) {
+                    // 为预编译sql设置参数
+                    if (param[i] instanceof String) {
+                        pstmt.setString(i + 1, (String) param[i]);
+                    } else if (param[i] instanceof Integer) {
+                        pstmt.setInt(i + 1, (int) param[i]);
+                    } else if (param[i] instanceof Double) {
+                        pstmt.setDouble(i + 1, (double) param[i]);
                     }
-                    // 执行SQL语句
-                    rs = pstmt.executeQuery();
                 }
-            } catch (SQLException e) {
-                // 处理SQLException异常
-                e.printStackTrace(System.err);
+                // 执行SQL语句
+                rs = pstmt.executeQuery();
             }
         }
         return rs;
@@ -112,25 +114,26 @@ public class DBUtil implements AutoCloseable {
     /**
      * 执行SQL语句，可以进行除查询以外的增、删、改的操作。
      */
-    public int executeUpdate(String preparedSql, String... param) {
+    public int executeUpdate(String preparedSql, Object... param) throws SQLException {
         int num = 0;
 
         if (conn != null) {
             // 处理SQL，执行SQL
-            try {
-                // 得到prepareStatement对象
-                pstmt = conn.prepareStatement(preparedSql);
-                if (pstmt != null) {
-                    for (int i = 0; i < param.length; i++) {
-                        // 为预编译sql设置参数
-                        pstmt.setString(i + 1, param[i]);
+            // 得到prepareStatement对象
+            pstmt = conn.prepareStatement(preparedSql);
+            if (pstmt != null) {
+                for (int i = 0; i < param.length; i++) {
+                    // 为预编译sql设置参数
+                    if (param[i] instanceof String) {
+                        pstmt.setString(i + 1, (String) param[i]);
+                    } else if (param[i] instanceof Integer) {
+                        pstmt.setInt(i + 1, (int) param[i]);
+                    } else if (param[i] instanceof Double) {
+                        pstmt.setDouble(i + 1, (double) param[i]);
                     }
-                    // 执行SQL语句
-                    num = pstmt.executeUpdate();
                 }
-            } catch (SQLException e) {
-                // 处理SQLException异常
-                e.printStackTrace(System.err);
+                // 执行SQL语句
+                num = pstmt.executeUpdate();
             }
         }
         return num;
