@@ -1,4 +1,4 @@
-package com.example.base;
+package com.example.dao;
 
 import com.example.base.User;
 

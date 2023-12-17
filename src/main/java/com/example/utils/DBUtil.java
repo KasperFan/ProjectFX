@@ -2,7 +2,7 @@ package com.example.utils;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.beans.PropertyVetoException;
 import java.sql.*;
@@ -21,11 +21,6 @@ public class DBUtil implements AutoCloseable {
         this.getConnection(hostName, port, dbName, user, password);
     }
 
-
-    @NotNull
-    public static DBUtil dbUtil(String dbName, String user, String password) {
-        return dbUtil("localhost", 3306, dbName, user, password);
-    }
 
     @NotNull
     public static DBUtil dbUtil(String hostName, int port, String dbName, String user, String password) {

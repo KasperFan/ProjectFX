@@ -1,7 +1,7 @@
 package com.example.utils;
 
 import com.example.base.User;
-import com.example.base.UserDao;
+import com.example.dao.UserDao;
 
 import java.sql.ResultSet;
 import java.util.LinkedList;
@@ -23,10 +23,24 @@ public class UserDaoImpl extends DBUtil implements UserDao, AutoCloseable {
     public UserDaoImpl(String hostName, int port, String dbName, String user, String password, String tableName,
                        String userIdHead, String userNameHead, String userPasswordHead) {
         super(hostName, port, dbName, user, password);
-        addSQL = String.format(addSQL, tableName, String.format("`%s`, `%s`, `%s`", userIdHead, userNameHead, userPasswordHead), "? ? ?");
-        updateSQL = String.format(updateSQL, tableName, String.format("`%s` = ?, `%s` = ?", userNameHead, userPasswordHead), String.format("`%s` = ?", userIdHead));
-        deleteSQL = String.format(deleteSQL, tableName, String.format("`%s` = ?", userIdHead));
-        getSQL = String.format(getSQL, String.format("`%s`, `%s`, `%s`", userIdHead, userNameHead, userPasswordHead), tableName, "%s");
+        addSQL = String.format(addSQL,
+                tableName,
+                String.format("`%s`, `%s`, `%s`",
+                        userIdHead,
+                        userNameHead,
+                        userPasswordHead),
+                "? ? ?");
+        updateSQL = String.format(updateSQL,
+                tableName,
+                String.format("`%s` = ?, `%s` = ?", userNameHead, userPasswordHead),
+                String.format("`%s` = ?", userIdHead));
+        deleteSQL = String.format(deleteSQL,
+                tableName,
+                String.format("`%s` = ?", userIdHead));
+        getSQL = String.format(getSQL,
+                String.format("`%s`, `%s`, `%s`", userIdHead, userNameHead, userPasswordHead),
+                tableName,
+                "%s");
         sentence = String.format(sentence, String.format("`%s` = ?", userIdHead));
     }
 

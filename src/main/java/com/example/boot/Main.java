@@ -1,5 +1,6 @@
 package com.example.boot;
 
+import com.example.dao.UserDao;
 import com.example.utils.DBUtil;
 import com.example.utils.SHA256;
 import com.example.utils.UserDaoImpl;
@@ -17,18 +18,23 @@ public class Main {
     public static void main(String... args) throws Exception {
         run2();
     }
+
     public static void run1() throws Exception {
 //        File output = new File("./account.csv");
 //        PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output)));
         Scanner sc = new Scanner(System.in);
         TreeMap<String, String> account = new TreeMap<>();
         LinkedList<String> names = new LinkedList<>();
-        var conn = new DBUtil("Java_CADS", "root", new String(new byte[]{70, 90, 104, 95, 51, 57, 52, 48, 50, 50, 54}));
+        var conn = new DBUtil(
+                "Java_CADS",
+                "root",
+                new String(new byte[]{70, 90, 104, 95, 51, 57, 52, 48, 50, 50, 54}));
         var sql = "SELECT * FROM user_list";
         try (ResultSet rst = conn.executeQuery(sql)
         ) {
             while (rst.next()) {
-                account.put(rst.getString(3), rst.getString(4));
+                account.put(rst.getString(3),
+                        rst.getString(4));
             }
         } catch (SQLException e) {
             e.printStackTrace(System.err);
@@ -44,16 +50,23 @@ public class Main {
         }
         conn.close();
     }
+
     public static void run2() throws Exception {
         TreeMap<String, String> account = new TreeMap<>();
         LinkedList<String> names = new LinkedList<>();
-        var conn = new UserDaoImpl("Java_CADS", "root", new String(new byte[]{70, 90, 104, 95, 51, 57, 52, 48, 50, 50, 54}),
-                "user_list", "id", "name", "pswd_sha");
-        var rst = conn.getAllUser();
-        conn.close();
+        UserDao dao = new UserDaoImpl(
+                "Java_CADS",
+                "root",
+                new String(new byte[]{70, 90, 104, 95, 51, 57, 52, 48, 50, 50, 54}),
+                "user_list",
+                "id",
+                "name",
+                "pswd_sha");
+        var rst = dao.getAllUser();
+        ((UserDaoImpl) dao).close();
         for (var i :
                 rst) {
-            System.out.println(i.getId()+" "+i.getName()+" "+i.getPassword());
+            System.out.println(i.getId() + " " + i.getName() + " " + i.getPassword());
         }
     }
 }
