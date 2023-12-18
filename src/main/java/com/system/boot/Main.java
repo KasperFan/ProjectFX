@@ -1,14 +1,12 @@
-package com.example.boot;
+package com.system.boot;
 
-import com.example.dao.UserDao;
-import com.example.utils.DBUtil;
-import com.example.utils.SHA256;
-import com.example.utils.UserDaoImpl;
+import com.system.dao.UserDao;
+import com.system.utils.DBUtil;
+import com.system.utils.SHA256;
+import com.system.utils.UserDaoImpl;
 
-import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.TreeMap;

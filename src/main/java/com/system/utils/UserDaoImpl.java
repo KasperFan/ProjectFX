@@ -1,19 +1,13 @@
-package com.example.utils;
+package com.system.utils;
 
-import com.example.base.User;
-import com.example.dao.UserDao;
+import com.system.base.User;
+import com.system.dao.UserDao;
 
 import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
 public class UserDaoImpl extends DBUtil implements UserDao, AutoCloseable {
-    private String addSQL = "INSERT INTO `%s` (%s) VALUES (%s)";
-    private String updateSQL = "UPDATE `%s` SET %s WHERE %s";
-    private String deleteSQL = "DELETE FROM `%s` WHERE %s";
-    private String getSQL = "SELECT %s FROM `%s` %s";
-    private String sentence = "WHERE %s";
-
     public UserDaoImpl(String dbName, String user, String password, String tableName, String userIdHead,
                        String userNameHead, String userPasswordHead) {
         this("localhost", 3306, dbName, user, password, tableName, userIdHead,

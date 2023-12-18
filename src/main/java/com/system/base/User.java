@@ -1,6 +1,6 @@
-package com.example.base;
+package com.system.base;
 
-import com.example.utils.SHA256;
+import com.system.utils.SHA256;
 
 public class User {
     private int id = 0;

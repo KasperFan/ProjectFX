@@ -1,6 +1,6 @@
-package com.example.dao;
+package com.system.dao;
 
-import com.example.base.User;
+import com.system.base.User;
 
 import java.util.List;
 

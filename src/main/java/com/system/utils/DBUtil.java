@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.system.utils;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -8,6 +8,11 @@ import java.beans.PropertyVetoException;
 import java.sql.*;
 
 public class DBUtil implements AutoCloseable {
+    protected String addSQL = "INSERT INTO `%s` (%s) VALUES (%s)";
+    protected String updateSQL = "UPDATE `%s` SET %s WHERE %s";
+    protected String deleteSQL = "DELETE FROM `%s` WHERE %s";
+    protected String getSQL = "SELECT %s FROM `%s` %s";
+    protected String sentence = "WHERE %s";
     private Connection conn = null;
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
