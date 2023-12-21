@@ -1,70 +1,69 @@
 package com.system.boot;
 
-import com.system.dao.UserDao;
-import com.system.utils.DBUtil;
-import com.system.utils.SHA256;
-import com.system.utils.UserDaoImpl;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.TreeMap;
-
-
-public class Main {
-    public static void main(String... args) throws Exception {
-        run2();
-    }
-
-    public static void run1() throws Exception {
-//        File output = new File("./account.csv");
-//        PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output)));
-        Scanner sc = new Scanner(System.in);
-        TreeMap<String, String> account = new TreeMap<>();
-        LinkedList<String> names = new LinkedList<>();
-        var conn = new DBUtil(
-                "Java_CADS",
-                "root",
-                new String(new byte[]{70, 90, 104, 95, 51, 57, 52, 48, 50, 50, 54}));
-        var sql = "SELECT * FROM user_list";
-        try (ResultSet rst = conn.executeQuery(sql)
-        ) {
-            while (rst.next()) {
-                account.put(rst.getString(3),
-                        rst.getString(4));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(System.err);
-        }
-//      UPDATE `Java_CADS`.`user_list` SET `pswd_sha` = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' WHERE `SID` = 1
-//        for (var i :
-//                names) {
-////            System.out.println(i + "," + SHA256.getSHA256(account.get(i)));//account.get(i));
-//            System.out.println(conn.executeUpdate("UPDATE `user_list` SET `pswd_sha` = '" + SHA256.getSHA256(account.get(i)) + "' WHERE `name` = '" + i + "'"));
+public class Main {}
+//
+//import com.system.DAO.dao.UserDao;
+//import com.system.DAO.utils.DBUtil;
+//import com.system.DAO.utils.SHA256;
+//import com.system.DAO.utils.BasicDaoImpl;
+//
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.util.LinkedList;
+//import java.util.Scanner;
+//import java.util.TreeMap;
+//
+//
+//public class Main {
+//    public static void main(String... args) throws Exception {
+//        run2();
+//    }
+//
+//    public static void run1() throws Exception {
+////        File output = new File("./account.csv");
+////        PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(output)));
+//        Scanner sc = new Scanner(System.in);
+//        TreeMap<String, String> account = new TreeMap<>();
+//        LinkedList<String> names = new LinkedList<>();
+//        var conn = new DBUtil();
+//        var sql = "SELECT * FROM user_list";
+//        try (ResultSet rst = conn.executeQuery(sql)
+//        ) {
+//            while (rst.next()) {
+//                account.put(rst.getString(3),
+//                        rst.getString(4));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace(System.err);
 //        }
-        for (int i = 0; i < 3; i++) {
-            System.out.println(account.get(sc.next()).equals(SHA256.getSHA256(sc.next())));
-        }
-        conn.close();
-    }
-
-    public static void run2() throws Exception {
-        TreeMap<String, String> account = new TreeMap<>();
-        LinkedList<String> names = new LinkedList<>();
-        UserDao dao = new UserDaoImpl(
-                "Java_CADS",
-                "root",
-                new String(new byte[]{70, 90, 104, 95, 51, 57, 52, 48, 50, 50, 54}),
-                "user_list",
-                "id",
-                "name",
-                "pswd_sha");
-        var rst = dao.getAllUser();
-        ((UserDaoImpl) dao).close();
-        for (var i :
-                rst) {
-            System.out.println(i.getId() + " " + i.getName() + " " + i.getPassword());
-        }
-    }
-}
+////      UPDATE `Java_CADS`.`user_list` SET `pswd_sha` = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' WHERE `SID` = 1
+////        for (var i :
+////                names) {
+//////            System.out.println(i + "," + SHA256.getSHA256(account.get(i)));//account.get(i));
+////            System.out.println(conn.executeUpdate("UPDATE `user_list` SET `pswd_sha` = '" + SHA256.getSHA256(account.get(i)) + "' WHERE `name` = '" + i + "'"));
+////        }
+//        for (int i = 0; i < 3; i++) {
+//            System.out.println(account.get(sc.next()).equals(SHA256.getSHA256(sc.next())));
+//        }
+//        conn.close();
+//    }
+//
+//    public static void run2() throws Exception {
+//        TreeMap<String, String> account = new TreeMap<>();
+//        LinkedList<String> names = new LinkedList<>();
+//        UserDao dao = new BasicDaoImpl(
+//                "Java_CADS",
+//                "root",
+//                new String(new byte[]{70, 90, 104, 95, 51, 57, 52, 48, 50, 50, 54}),
+//                "user_list",
+//                "id",
+//                "name",
+//                "pswd_sha");
+//        var rst = dao.getAllUser();
+//        ((BasicDaoImpl) dao).close();
+//        for (var i :
+//                rst) {
+//            System.out.println(i.getId() + " " + i.getName() + " " + i.getPassword());
+//        }
+//    }
+//}

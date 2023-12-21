@@ -1,0 +1,5 @@
+JDBCurl : "jdbc:mysql://localhost:3306/Java_CADS?&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC"
+userName : "root"
+passWord : "FZh_3940226"
+userTable : "user_list"
+rocketTable : ""

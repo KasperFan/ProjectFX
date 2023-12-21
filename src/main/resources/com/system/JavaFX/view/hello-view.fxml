@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.JavaFX.controller.HelloController">
+
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0">
+         <image>
+            <Image url="@../../../../image/background.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="loginButton" layoutX="121.0" layoutY="263.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="99.0" text="登录" onAction="#onHelloButtonClick">
+         <font>
+            <Font name="Xingkai TC Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="signButton" layoutX="367.0" layoutY="263.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="99.0" text="注册">
+         <font>
+            <Font name="Xingkai TC Bold" size="13.0" />
+         </font>
+      </Button>
+      <Label layoutX="130.0" layoutY="69.0" prefHeight="43.0" prefWidth="343.0" text="欢迎来到中国航空航天展示系统" textAlignment="CENTER" textFill="#a81313">
+         <font>
+            <Font name="Xingkai SC Bold" size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nameInput" layoutX="193.0" layoutY="130.0" prefHeight="26.0" prefWidth="216.0" />
+      <CheckBox fx:id="ifAdminMode" layoutX="194.0" layoutY="220.0" mnemonicParsing="false" text="管理员?" />
+      <PasswordField fx:id="passwordInout" layoutX="193.0" layoutY="174.0" prefHeight="26.0" prefWidth="216.0" />
+      <PasswordField layoutX="270.0" layoutY="215.0" prefHeight="18.0" prefWidth="139.0" />
+   </children>
+</AnchorPane>

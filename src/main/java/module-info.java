@@ -7,11 +7,14 @@ module com.example.projectsystemboot {
     requires java.desktop;
     requires c3p0;
     requires java.naming;
+    requires javafx.media;
 
 
     exports com.system.boot;
     exports com.system.test;
     opens com.system.boot to javafx.fxml;
-    exports com.system.gui;
-    opens com.system.gui to javafx.fxml;
+    exports com.system.JavaFX.view;
+    opens com.system.JavaFX.view to javafx.fxml;
+    exports com.system.JavaFX.controller;
+    opens com.system.JavaFX.controller to javafx.fxml;
 }
