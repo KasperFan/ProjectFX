@@ -2,6 +2,7 @@ package com.system.DAO.utils;
 
 import com.system.DAO.dao.UserDao;
 import com.system.DAO.polo.User;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
 import java.util.LinkedList;
@@ -27,8 +28,8 @@ public class UserDaoImpl extends BasicDaoImpl implements UserDao {
         this.userAdminHead = userAdminHead;
         addSQL = String.format(addSQL,
                 tableName,
-                format,
-                "? ? ? ?");
+                String.format("`%s`, `%s`, `%s`", userNameHead, userPasswordHead, userAdminHead),
+                "?, ?, ?");
         updateSQL = String.format(updateSQL,
                 tableName,
                 String.format("`%s` = ?, `%s` = ?", this.userNameHead, this.userPasswordHead),
@@ -40,13 +41,13 @@ public class UserDaoImpl extends BasicDaoImpl implements UserDao {
                 format,
                 tableName,
                 "%s");
-        sentence = String.format(sentence, String.format("`%s` = ?", this.userIdHead));
+        sentence = String.format(sentence, String.format("`%s` = ?", this.userNameHead));
     }
 
 
     @Override
     public boolean addUser(User user) throws Exception {
-        return super.add(addSQL, user.getId(), user.getName(), user.getPassword(), user.isAdmin() ? 1 : 0);
+        return super.add(addSQL, user.getName(), user.getPassword(), user.isAdmin() ? 1 : 0);
     }
 
     @Override
@@ -60,12 +61,12 @@ public class UserDaoImpl extends BasicDaoImpl implements UserDao {
     }
 
 
-
+    @Nullable
     @Override
-    public User getUserById(int id) throws Exception {
-        ResultSet rst = super.get(String.format(getSQL, sentence), id);
+    public User getUserByName(String name) throws Exception {
+        ResultSet rst = super.get(String.format(getSQL, sentence), name);
         if (rst.next()) {
-            return new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getBoolean(userAdminHead));
+            return new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1);
         }
         return null;
     }

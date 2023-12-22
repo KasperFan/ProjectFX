@@ -1,11 +1,8 @@
 package com.system.DAO.utils;
 
 import com.system.DAO.dao.BasicDAO;
-import com.system.DAO.polo.User;
 
 import java.sql.ResultSet;
-import java.util.LinkedList;
-import java.util.List;
 
 public class BasicDaoImpl extends DBUtil implements BasicDAO, AutoCloseable {
     public BasicDaoImpl() {

@@ -11,7 +11,7 @@ public interface UserDao extends BasicDAO {
 
     boolean deleteUser(int id) throws Exception;
 
-    User getUserById(int id) throws Exception;
+    User getUserByName(String name) throws Exception;
 
     List<User> getAllUser() throws Exception;
 }

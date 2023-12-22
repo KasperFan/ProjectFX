@@ -8,15 +8,20 @@ public class User {
     private String password = "null";
     private boolean isAdmin = false;
 
-    public User(int id, String name) {
-        this.id = id;
+    public User(String name) {
         this.name = name;
+    }
+
+    public User(String name, String password, boolean isAdmin) {
+        this.name = name;
+        this.setPassword(password);
+        this.isAdmin = isAdmin;
     }
 
     public User(int id, String name, String password, boolean isAdmin) {
         this.id = id;
         this.name = name;
-        this.setPassword(password);
+        this.password = password;
         this.isAdmin = isAdmin;
     }
 
