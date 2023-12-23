@@ -1,4 +1,4 @@
-module com.example.projectsystemboot {
+module com.system {
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.fxml;
@@ -12,6 +12,8 @@ module com.example.projectsystemboot {
 
     exports com.system.boot;
     exports com.system.test;
+    exports com.system.DAO.polo;
+    exports com.system.Service;
     opens com.system.boot to javafx.fxml;
     exports com.system.JavaFX.view;
     opens com.system.JavaFX.view to javafx.fxml;

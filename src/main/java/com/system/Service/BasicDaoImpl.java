@@ -1,6 +1,7 @@
-package com.system.DAO.utils;
+package com.system.Service;
 
 import com.system.DAO.dao.BasicDAO;
+import com.system.DAO.utils.DBUtil;
 
 import java.sql.ResultSet;
 

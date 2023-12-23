@@ -4,13 +4,11 @@ public class Astronaut {
     private String name;
     private int age;
     private String sex;
-    private String job;
 
-    public Astronaut(String name, int age, String sex, String job) {
+    public Astronaut(String name, int age, String sex) {
         this.name = name;
         this.age = age;
         this.sex = sex;
-        this.job = job;
     }
 
     public String getName() {
@@ -25,10 +23,6 @@ public class Astronaut {
         return sex;
     }
 
-    public String getJob() {
-        return job;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -41,11 +35,12 @@ public class Astronaut {
         this.sex = sex;
     }
 
-    public void setJob(String job) {
-        this.job = job;
+    @Override
+    public String toString() {
+        return "Astronaut{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", sex='" + sex + '\'' +
+                '}';
     }
-
-//    @Override
-//    public String toString() {
-//        return "Astronaut{" +
 }

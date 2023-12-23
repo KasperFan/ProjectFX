@@ -2,13 +2,14 @@ package com.system.JavaFX.controller;
 
 import com.system.DAO.polo.User;
 import com.system.DAO.utils.SHA256;
-import com.system.DAO.utils.UserDaoImpl;
+import com.system.Service.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import static com.system.JavaFX.view.ProjectApplication.isLogin;
+import static com.system.JavaFX.view.ProjectApplication.isAdmin;
 
 import java.util.Optional;
 
@@ -51,10 +52,8 @@ public class HelloController {
             try (UserDaoImpl userDao = new UserDaoImpl("user", "uid", "name", "pswd_sha", "is_admin")) {
                 var loginUser = userDao.getUserByName(nameInput.getText());
                 if (loginUser != null && loginUser.getPassword().equals(SHA256.getSHA256(passwordInout.getText()))) {
+                    isAdmin = loginUser.isAdmin();
                     isLogin = true;
-                    loginCheck = !loginCheck;
-                    backButton.setLayoutX(279.0);
-                    backButton.setVisible(false);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "登录成功");
                     Optional<ButtonType> buttonType = alert.showAndWait();
                     if (buttonType.get() == ButtonType.OK) {
@@ -70,7 +69,7 @@ public class HelloController {
     }
 
     @FXML
-    public void onSignButtonClick(ActionEvent actionEvent) {
+    public void onSignButtonClick() {
         if (!signCheck) {
             signCheck = true;
             backButton.setLayoutX(396.0);
@@ -113,6 +112,9 @@ public class HelloController {
                     } else {
                         signCheck = !signCheck;
                         backButton.setLayoutX(279.0);
+                        loginButton.setVisible(true);
+                        nameInput.setVisible(false);
+                        passwordInout.setVisible(false);
                         backButton.setVisible(false);
                         adminToken.setVisible(false);
                         ifAdminMode.setVisible(false);
@@ -157,7 +159,7 @@ public class HelloController {
     @FXML
     public void onBackButtonClick(ActionEvent actionEvent) {
         if (signCheck) {
-            signCheck = !signCheck;
+            signCheck = false;
             backButton.setLayoutX(279.0);
             loginButton.setVisible(true);
             nameInput.setVisible(false);
@@ -167,7 +169,7 @@ public class HelloController {
             ifAdminMode.setVisible(false);
             signButton.setLayoutX(367.0);
         } else if (loginCheck) {
-            loginCheck = !loginCheck;
+            loginCheck = false;
             backButton.setLayoutX(159.0);
             signButton.setVisible(true);
             backButton.setVisible(false);
@@ -180,7 +182,7 @@ public class HelloController {
     public void enterKey(KeyEvent keyEvent) {
         if (keyEvent.getCode().toString().equals("ENTER")) {
             if (signCheck) {
-                onSignButtonClick(null);
+                onSignButtonClick();
             } else if (loginCheck) {
                 onLoginButtonClick();
             }

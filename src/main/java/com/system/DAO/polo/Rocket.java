@@ -1,20 +1,17 @@
 package com.system.DAO.polo;
 
-import java.time.LocalDateTime;
-
 public class Rocket {
     private int rocketID;
     private String rocketName;
-    private LocalDateTime launchDate;
+    private String launchDate;
     private String carryPeople;
-    private int in_orbitTime;
+    private int inOrbitTime;
 
-    public Rocket(int rocketID, String rocketName, LocalDateTime launchDate, String carryPeople, int in_orbitTime) {
+    public Rocket(int rocketID, String rocketName, String launchDate, int inOrbitTime) {
         this.rocketID = rocketID;
         this.rocketName = rocketName;
         this.launchDate = launchDate;
-        this.carryPeople = carryPeople;
-        this.in_orbitTime = in_orbitTime;
+        this.inOrbitTime = inOrbitTime;
     }
 
     public int getRocketID() {
@@ -33,11 +30,11 @@ public class Rocket {
         this.rocketName = rocketName;
     }
 
-    public LocalDateTime getLaunchDate() {
+    public String getLaunchDate() {
         return launchDate;
     }
 
-    public void setLaunchDate(LocalDateTime launchDate) {
+    public void setLaunchDate(String launchDate) {
         this.launchDate = launchDate;
     }
 
@@ -50,10 +47,21 @@ public class Rocket {
     }
 
     public long getInOrbitTime() {
-        return in_orbitTime;
+        return inOrbitTime;
     }
 
     public void setInOrbitTime(int in_orbitTime) {
-        this.in_orbitTime = in_orbitTime;
+        this.inOrbitTime = in_orbitTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Rocket{" +
+                "rocketID=" + rocketID +
+                ", rocketName='" + rocketName + '\'' +
+                ", launchDate='" + launchDate + '\'' +
+                ", carryPeople='" + carryPeople + '\'' +
+                ", in_orbitTime=" + inOrbitTime +
+                '}';
     }
 }
