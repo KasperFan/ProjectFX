@@ -1,5 +1,7 @@
 package com.system.DAO.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.*;
 
 public class DBUtil implements AutoCloseable {
@@ -57,21 +59,25 @@ public class DBUtil implements AutoCloseable {
             // 得到prepareStatement对象
             pstmt = conn.prepareStatement(preparedSql);
             if (pstmt != null) {
-                for (int i = 0; i < param.length; i++) {
-                    // 为预编译sql设置参数
-                    if (param[i] instanceof String) {
-                        pstmt.setString(i + 1, (String) param[i]);
-                    } else if (param[i] instanceof Integer) {
-                        pstmt.setInt(i + 1, (int) param[i]);
-                    } else if (param[i] instanceof Double) {
-                        pstmt.setDouble(i + 1, (double) param[i]);
-                    }
-                }
+                insertParams(param);
                 // 执行SQL语句
                 rs = pstmt.executeQuery();
             }
         }
         return rs;
+    }
+
+    private void insertParams(@NotNull Object... param) throws SQLException {
+        for (int i = 0; i < param.length; i++) {
+            // 为预编译sql设置参数
+            if (param[i] instanceof String) {
+                pstmt.setString(i + 1, (String) param[i]);
+            } else if (param[i] instanceof Integer) {
+                pstmt.setInt(i + 1, (int) param[i]);
+            } else if (param[i] instanceof Double) {
+                pstmt.setDouble(i + 1, (double) param[i]);
+            }
+        }
     }
 
     /**
@@ -85,16 +91,7 @@ public class DBUtil implements AutoCloseable {
             // 得到prepareStatement对象
             pstmt = conn.prepareStatement(preparedSql);
             if (pstmt != null) {
-                for (int i = 0; i < param.length; i++) {
-                    // 为预编译sql设置参数
-                    if (param[i] instanceof String) {
-                        pstmt.setString(i + 1, (String) param[i]);
-                    } else if (param[i] instanceof Integer) {
-                        pstmt.setInt(i + 1, (int) param[i]);
-                    } else if (param[i] instanceof Double) {
-                        pstmt.setDouble(i + 1, (double) param[i]);
-                    }
-                }
+                insertParams(param);
                 // 执行SQL语句
                 num = pstmt.executeUpdate();
             }

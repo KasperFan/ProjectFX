@@ -4,7 +4,6 @@ public class Rocket {
     private int rocketID;
     private String rocketName;
     private String launchDate;
-    private String carryPeople;
     private int inOrbitTime;
 
     public Rocket(int rocketID, String rocketName, String launchDate, int inOrbitTime) {
@@ -38,14 +37,6 @@ public class Rocket {
         this.launchDate = launchDate;
     }
 
-    public String getCarryPeople() {
-        return carryPeople;
-    }
-
-    public void setCarryPeople(String carryPeople) {
-        this.carryPeople = carryPeople;
-    }
-
     public long getInOrbitTime() {
         return inOrbitTime;
     }
@@ -60,7 +51,6 @@ public class Rocket {
                 "rocketID=" + rocketID +
                 ", rocketName='" + rocketName + '\'' +
                 ", launchDate='" + launchDate + '\'' +
-                ", carryPeople='" + carryPeople + '\'' +
                 ", in_orbitTime=" + inOrbitTime +
                 '}';
     }

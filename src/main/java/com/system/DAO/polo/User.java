@@ -3,7 +3,7 @@ package com.system.DAO.polo;
 import com.system.DAO.utils.SHA256;
 
 public class User {
-    private int id = 0;
+    private int id;
     private String name = "null";
     private String password = "null";
     private boolean isAdmin = false;

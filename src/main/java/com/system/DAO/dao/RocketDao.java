@@ -11,7 +11,7 @@ public interface RocketDao extends BasicDAO {
 
     boolean deleteRocket(int id) throws Exception;
 
-    Rocket getRocketByName(String  name) throws Exception;
+    Rocket getRocketByName(String name) throws Exception;
 
     List<Rocket> getAllRockets() throws Exception;
 }

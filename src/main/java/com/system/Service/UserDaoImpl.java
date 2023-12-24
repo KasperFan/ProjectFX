@@ -2,6 +2,7 @@ package com.system.Service;
 
 import com.system.DAO.dao.UserDao;
 import com.system.DAO.polo.User;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
@@ -46,12 +47,12 @@ public class UserDaoImpl extends BasicDaoImpl implements UserDao {
 
 
     @Override
-    public boolean addUser(User user) throws Exception {
+    public boolean addUser(@NotNull User user) throws Exception {
         return super.add(addSQL, user.getName(), user.getPassword(), user.isAdmin() ? 1 : 0);
     }
 
     @Override
-    public boolean updateUser(User user) throws Exception {
+    public boolean updateUser(@NotNull User user) throws Exception {
         return super.add(updateSQL, user.getName(), user.getPassword(), user.getId());
     }
 
@@ -74,7 +75,25 @@ public class UserDaoImpl extends BasicDaoImpl implements UserDao {
     @Override
     public List<User> getAllUser() throws Exception {
         List<User> list = new LinkedList<>();
-        ResultSet rst = super.get(getSQL);
+        ResultSet rst = super.get(String.format(getSQL, "LIMIT 0,?"), 1000);
+        while (rst.next()) {
+            list.add(new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1));
+        }
+        return list;
+    }
+
+    public List<User> getAllUserById(int id) throws Exception {
+        List<User> list = new LinkedList<>();
+        ResultSet rst = super.get(String.format(getSQL, String.format(sentence, "`uid` = ?")), id);
+        while (rst.next()) {
+            list.add(new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1));
+        }
+        return list;
+    }
+
+    public List<User> getAllUserByName(String name) throws Exception {
+        List<User> list = new LinkedList<>();
+        ResultSet rst = super.get(String.format(getSQL, String.format(sentence, "`userName` LIKE ?")), String.format("%%%s%%", name));
         while (rst.next()) {
             list.add(new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1));
         }

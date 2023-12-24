@@ -11,135 +11,201 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 15/12/2023 04:44:43
+ Date: 24/12/2023 03:17:30
 */
-
 CREATE DATABASE IF NOT EXISTS Java_CADS;
-
 USE Java_CADS;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for user_list
+-- Table structure for astronaut
 -- ----------------------------
-DROP TABLE IF EXISTS `user_list`;
-CREATE TABLE `user_list`
-(
-    `uid`       int unsigned                                                  NOT NULL COMMENT '用户ID',
-    `name`     varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名',
-    `pswd_sha` varchar(255)                                                  NOT NULL COMMENT '密码的SHA-256加密值',
-    PRIMARY KEY (`uid`)
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 51
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+DROP TABLE IF EXISTS `astronaut`;
+CREATE TABLE `astronaut` (
+  `aid` int(4) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT '宇航员ID',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '宇航员姓名',
+  `age` int DEFAULT NULL COMMENT '宇航员年龄',
+  `sex` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '宇航员性别',
+  PRIMARY KEY (`aid`,`name`),
+  UNIQUE KEY `name` (`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='宇航员信息表';
 
 -- ----------------------------
--- Records of user_list
+-- Records of astronaut
 -- ----------------------------
 BEGIN;
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (1, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (2, 'Xiaoming', '30225d343aeb3105ff77b519edff77ba73553012a08c3f18b70890ba79be0ba6');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (3, 'Bruce', 'b18978c14b8024dc00a7fe6fdb7d03ec538263570d810811d16042d94b33b828');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (4, 'Yunxi', 'eadd6f83d16eab0ff0f1f2417e5836127d172efb0adfa659653f47da72b7bd55');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (5, 'Raymond', 'd102e9641da0f59932fa2bcb615dc4d89910ae9b38b661b1c4f95cc3f0343695');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (6, 'Tsubasa', '56b48d44004de47d38a1752f1e394bb8423cf24f0f01235bb6aa70d583e029f2');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (7, 'Sakura', '5ab21e4cf7d1066165ce7febcf66046e3c187caaae706d5c06fde7fe3d99e59e');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (8, 'Travis', 'f2dc9d4d40345059e8219494c9a6b901ff639c2cb4b33d7c60224b6c8ae3dc00');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (9, 'Ikki', '1288ba27636715c73cc12d2fda35a1f76066385990e211ef14db23ad7b845100');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (10, 'Bobby', 'f6d674ba4cb07d6ff6375b4b561a434b475f57b46ef6cf9658f99161fadf09bf');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (11, 'Zitao', 'fc47151775c202e50538bc6a9f4dc5fcb30fff5ed71d5fc3a1c4f2f1dc3f26f5');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (12, 'Shihan', '3e98381ea240ae6caf749941d1d3cffd532c1d848fb16fc45cd0ead28127ab76');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (13, 'Momoka', '8c4031fcecb9cd4f6115aa3655443baf9a01d5f5d10c61c2277017f37c833690');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (14, 'Bruce', 'b18978c14b8024dc00a7fe6fdb7d03ec538263570d810811d16042d94b33b828');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (15, 'Zitao', 'fc47151775c202e50538bc6a9f4dc5fcb30fff5ed71d5fc3a1c4f2f1dc3f26f5');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (16, 'Mark', '151e68811023d9ac9be511f7de11094203ad915da7b24c7817a036ab4f5b4194');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (17, 'Denise', 'ffcd9bebaa792c7b19be1496c945fd36df5f148582e0e36e725fc5ffc4426e6e');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (18, 'Airi', '92b35c59bdfc6a68c70cb651a222ea0de4f5cee29cb19a9da53487ce1117f77a');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (19, 'Nanami', '3339ccfad84d83d4d389eccd8dbf8a442e096273f00d1de71703ef3bb80d9f01');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (20, 'Sakura', '5ab21e4cf7d1066165ce7febcf66046e3c187caaae706d5c06fde7fe3d99e59e');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (21, 'Kathleen', 'edce3b818697256b66bfab6bfb26d2712ce1144fc94433ea50411ff2df5d1c4e');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (22, 'Momoka', '8c4031fcecb9cd4f6115aa3655443baf9a01d5f5d10c61c2277017f37c833690');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (23, 'Rin', 'ef24727ede388680f0aa5925cf0ecdd568b4547f2c6e421bf39c991d27be0fe4');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (24, 'Lu', '31750dacc4aad4fa802c0d0dcad51f3844d884aeca82039d94755206dccac423');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (25, 'Alan', '8d5d6694bdd31cc267fd4d1cac0147133cab22b0705eae5e1207d071aa6c062d');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (26, 'Catherine', 'de3b0e2ad6d2fc0f194dc84df2bc46fc4f112a7899f55983489a17bda1bbb465');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (27, 'Raymond', 'd102e9641da0f59932fa2bcb615dc4d89910ae9b38b661b1c4f95cc3f0343695');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (28, 'Eita', '04d31a7bdf3dc4e52ff1ccada6c9831489df21e620b5c98be7b10254fab9403d');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (29, 'Aoi', '89c9ef9e3e866daca12379ca31e84fae525527aae437337163683d533d7c66a9');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (30, 'Zhiyuan', '783beb8b3dd38e801f08b712538d7517226a15523899827cbac71358641c667b');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (31, 'Yota', 'ce2eea212e31fb86daf6dfb9517d5cc3a6c6ea95f1a3665ef019f3773ae7760c');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (32, 'Leroy', 'bb7d8826b54c57dd5f90d3b80d9bd07f8cb1ece279cb67e504f54fe6ea272b49');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (33, 'Ziyi', '60be9ed1114bf4a958df91ffdcc69e20a4470a2fe91da7dab05d694e508c8940');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (34, 'Kathleen', 'edce3b818697256b66bfab6bfb26d2712ce1144fc94433ea50411ff2df5d1c4e');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (35, 'Diane', 'dd3777ae4f4f8a11d3c838bec01f78efaacde7f9a9c2c1c6719189365b5f64c7');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (36, 'Xiaoming', '30225d343aeb3105ff77b519edff77ba73553012a08c3f18b70890ba79be0ba6');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (37, 'Jiehong', '18b09a2378006df1fe6368e7d6fdc0fa7736d131f6174f11eab39c8f9efb72d8');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (38, 'Sara', '3a642c44f275ff48ae5096b654e1aa6e42392b1c98b398f07eae97165fe978ed');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (39, 'Hikaru', '4d241930e81155374a0bbc65b406cdb35ba0925ba3fd5a8c69dfff2609a5e337');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (40, 'Takuya', '4b68d9f403c7eea394de3aa4629eb7483d8a9ea9a56dde4619d1a15fca32b124');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (41, 'Jiehong', '18b09a2378006df1fe6368e7d6fdc0fa7736d131f6174f11eab39c8f9efb72d8');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (42, 'Christina', '9eaa81817b5c5856ec377bc73d387cbfa107138f0ff4a8c483b22fe19b5ff316');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (43, 'Kazuma', '94d7400cdcf56aa22ef6da1f959f56b7bfed98c0f964efde442f1b3dbe27d364');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (44, 'Charles', '4744192ae226a8df3656eae5d83a3f886d0a072f2f10035087c71e5f97d5c6dd');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (45, 'Miu', '33a86976936947026afa95c631b0229a9c5c41af39a27ec04c06867f93798bb6');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (46, 'Kenneth', 'b373265f7acb222b5a61c55184049a80e6544644362032d81cd1bd782fa0fd07');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (47, 'Patricia', 'fa5095c98133479de37c3c0d2eb0f2d231c4ee54f28de2fa8c6ecaf133865123');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (48, 'Miu', '33a86976936947026afa95c631b0229a9c5c41af39a27ec04c06867f93798bb6');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (49, 'Michael', '4adf31ca4bde3a3d3cccfcf599098d5cba7e7405111696ef017a0dfe72f3ec66');
-INSERT INTO `user_list` (`uid`, `name`, `pswd_sha`)
-VALUES (50, 'Zitao', 'fc47151775c202e50538bc6a9f4dc5fcb30fff5ed71d5fc3a1c4f2f1dc3f26f5');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0001, '杨利伟', 38, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0002, '费俊龙', 40, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0003, '聂海胜', 41, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0004, '翟志刚', 42, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0005, '刘伯明', 42, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0006, '景海鹏', 43, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0007, '刘旺', 46, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0008, '刘洋', 34, '女');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0009, '张晓光', 47, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0010, '王亚平', 33, '女');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0011, '陈冬', 38, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0012, '唐洪波', 42, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0013, '叶光富', 40, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0014, '蔡旭哲', 35, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0015, '邓清明', 37, '男');
+INSERT INTO `astronaut` (`aid`, `name`, `age`, `sex`) VALUES (0016, '张陆', 36, '男');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for ev_ast
+-- ----------------------------
+DROP TABLE IF EXISTS `ev_ast`;
+CREATE TABLE `ev_ast` (
+  `eid` int(4) unsigned zerofill NOT NULL COMMENT '事件ID',
+  `aid` int(4) unsigned zerofill NOT NULL COMMENT '宇航员ID'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='事件—宇航员关系表';
+
+-- ----------------------------
+-- Records of ev_ast
+-- ----------------------------
+BEGIN;
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0004, 0001);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0005, 0002);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0005, 0003);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0007, 0004);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0007, 0005);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0007, 0006);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0010, 0006);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0010, 0007);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0010, 0008);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0012, 0006);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0012, 0011);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0018, 0005);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0018, 0012);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0018, 0013);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0018, 0004);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0018, 0010);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0018, 0014);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0018, 0015);
+INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (0018, 0016);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for ev_roc
+-- ----------------------------
+DROP TABLE IF EXISTS `ev_roc`;
+CREATE TABLE `ev_roc` (
+  `eid` int(4) unsigned zerofill NOT NULL COMMENT '事件ID',
+  `rid` int(4) unsigned zerofill NOT NULL COMMENT '火箭ID'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='事件—火箭关系表';
+
+-- ----------------------------
+-- Records of ev_roc
+-- ----------------------------
+BEGIN;
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0002, 0001);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0003, 0002);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0003, 0003);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0004, 0002);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0005, 0002);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0006, 0003);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0007, 0002);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0008, 0003);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0009, 0002);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0010, 0002);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0011, 0003);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0012, 0002);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0013, 0007);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0014, 0003);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0015, 0005);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0016, 0005);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0017, 0005);
+INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (0018, 0002);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for event
+-- ----------------------------
+DROP TABLE IF EXISTS `event`;
+CREATE TABLE `event` (
+  `eid` int(4) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT '事件id',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '事件名',
+  `time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '事件发生时间',
+  `mean` varchar(255) DEFAULT NULL COMMENT '事件的意义',
+  PRIMARY KEY (`eid`),
+  UNIQUE KEY `name` (`title`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='事件表';
+
+-- ----------------------------
+-- Records of event
+-- ----------------------------
+BEGIN;
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0001, '第一个火箭导弹研究机构———国防部第五研究院成立', '1956.10.08', '开启了我国航天事业的发展历程');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0002, '首枚人造卫星“东方红一号”发射成功', '1970.04.24', '我国成为世界上第三个独立研制和发射卫星的国家');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0003, '尝试进入世界航天市场，承揽国内外用户卫星发射', '1985.10.26', '我国成为全球第三个步入国际商业发射市场的国家');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0004, '首次载人航天飞行任务成功，杨利伟成为我国首位航天员', '2003.10.15', '我国成为世界上第三个独立掌握载人航天技术的国家');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0005, '实现“多人多天”在轨飞行，航天员费俊龙、聂海胜在太空生活5天', '2005.10.12', '我国掌握了环境控制与生命保障、飞行器控制、航天医学保障等关键技术');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0006, '探月卫星“嫦娥一号”发射成功，开启了我国探月工程的序幕', '2007.10.24', '我国成为世界上第五个探月的国家');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0007, '航天员太空行走，翟志刚在太空进行了20分钟的出舱活动', '2008.09.25', '我国突破和掌握了空间出舱活动技术');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0008, '探月着陆器“嫦娥二号”发射成功，对月球进行了绕月探测', '2010.10.01', '我国成为世界上第三个实现月球绕月探测的国家');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0009, '空间站交会对接，神舟八号飞船与天宫一号目标飞行器成功对接', '2011.11.03', '我国空间交会对接技术取得重大突破');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0010, '首位女航天员刘洋随神舟九号飞船进入太空，实现了航天员手控交会对接', '2012.06.16', '我国突破和掌握了航天员手控交会对接技术');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0011, '月球软着陆和巡视探测，嫦娥三号探测器和玉兔号月球车成功登陆月球', '2013.12.14', '我国成为世界上第三个实现月球软着陆的国家');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0012, '航天员中期在轨驻留，神舟十一号飞船与天宫二号空间实验室成功对接', '2016.10.19', '我国首次开展了真正意义上有人参与的空间科学实验');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0013, '推进剂在轨补加，天舟一号货运飞船与天宫二号空间实验室成功对接', '2017.04.22', '我国突破和验证了空间站货物运输、推进剂在轨补加等关键技术');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0014, '月球背面软着陆和巡视探测，嫦娥四号探测器和玉兔二号月球车成功登陆月球', '2019.01.03', '我国成为世界上第一个在月球背面着陆的国家');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0015, '实现月球样品返回，嫦娥五号探测器成功取回月壤', '2020.12.17', '我国成为世界上第三个实现月球样品返回的国家');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0016, '实现火星探测，天问一号探测器成功进入火星轨道，祝融号火星车成功登陆火星', '2021.2.10 5.15', '我国成为世界上第二个实现火星探测的国家');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0017, '空间站核心舱发射，天和核心舱成功进入预定轨道', '2021.04.29', '我国空间站建设从关键技术验证阶段转入在轨建造阶段');
+INSERT INTO `event` (`eid`, `title`, `time`, `mean`) VALUES (0018, '实现空间站长期有人驻留，神舟十二号、神舟十三号、神舟十四号、神舟十五号飞船与天和核心舱、问天实验舱成功对接', '2021.06.17 10.16 11.29 12.2', '我国实现了6人在轨、太空会师的历史性突破，中国空间站正式开启长期有人驻留模式');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for rocket
+-- ----------------------------
+DROP TABLE IF EXISTS `rocket`;
+CREATE TABLE `rocket` (
+  `rocketID` int(4) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT '火箭ID',
+  `rocketName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '火箭名称',
+  `launchDate` varchar(255) DEFAULT NULL COMMENT '发射时间',
+  `in_orbitTime` int DEFAULT NULL COMMENT '在轨时间',
+  PRIMARY KEY (`rocketID`),
+  UNIQUE KEY `rocketName` (`rocketName`) USING BTREE COMMENT '火箭名称唯一'
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='火箭信息表';
+
+-- ----------------------------
+-- Records of rocket
+-- ----------------------------
+BEGIN;
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `launchDate`, `in_orbitTime`) VALUES (0001, '长征一号', '1970.04.24', 28);
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `launchDate`, `in_orbitTime`) VALUES (0002, '长征二号', '1971.11.03', NULL);
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `launchDate`, `in_orbitTime`) VALUES (0003, '长征三号', '1984.04.08', NULL);
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `launchDate`, `in_orbitTime`) VALUES (0004, '长征四号', '1988.09.06', NULL);
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `launchDate`, `in_orbitTime`) VALUES (0005, '长征五号', '2016.11.03', NULL);
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `launchDate`, `in_orbitTime`) VALUES (0006, '长征六号', '2015.09.19', NULL);
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `launchDate`, `in_orbitTime`) VALUES (0007, '长征七号', '2016.06.25', NULL);
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `launchDate`, `in_orbitTime`) VALUES (0008, '长征八号', '2020.12.22', NULL);
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `launchDate`, `in_orbitTime`) VALUES (0009, '长征九号', NULL, NULL);
+INSERT INTO `rocket` (`rocketID`, `rocketName`, `launchDate`, `in_orbitTime`) VALUES (0010, '长征十一号', '2015.9.25', NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `uid` int(4) unsigned zerofill NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名',
+  `pswd_sha` varchar(255) NOT NULL COMMENT '密码的SHA-256加密值',
+  `is_admin` int NOT NULL COMMENT '用户的类型',
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户表';
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+BEGIN;
+INSERT INTO `user` (`uid`, `name`, `pswd_sha`, `is_admin`) VALUES (0001, 'root', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1);
+INSERT INTO `user` (`uid`, `name`, `pswd_sha`, `is_admin`) VALUES (0002, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

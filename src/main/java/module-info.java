@@ -11,7 +11,6 @@ module com.system {
 
 
     exports com.system.boot;
-    exports com.system.test;
     exports com.system.DAO.polo;
     exports com.system.Service;
     opens com.system.boot to javafx.fxml;

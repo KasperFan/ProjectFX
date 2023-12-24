@@ -11,6 +11,7 @@ import java.io.IOException;
 public class ProjectApplication extends Application {
     public static boolean isLogin = false;
     public static boolean isAdmin = false;
+    public static boolean isRoot = false;
     @Override
     public void start(@NotNull Stage stage) throws IOException {
         FXMLLoader fxmlLoader1 = new FXMLLoader(ProjectApplication.class.getResource("hello-view.fxml"));
@@ -39,7 +40,7 @@ public class ProjectApplication extends Application {
         });
     }
 
-    public static void loadScene(Stage stage1) throws IOException {
+    public static void loadScene(@NotNull Stage stage1) throws IOException {
         FXMLLoader fxmlLoader2 = new FXMLLoader(ProjectApplication.class.getResource("menu-view.fxml"));
         Scene scene2 = new Scene(fxmlLoader2.load(), 1000, 680);
         stage1.setResizable(false);

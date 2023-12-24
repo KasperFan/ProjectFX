@@ -8,10 +8,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import static com.system.JavaFX.view.ProjectApplication.isLogin;
-import static com.system.JavaFX.view.ProjectApplication.isAdmin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+
+import static com.system.JavaFX.view.ProjectApplication.*;
 
 public class HelloController {
     @FXML
@@ -54,6 +55,7 @@ public class HelloController {
                 if (loginUser != null && loginUser.getPassword().equals(SHA256.getSHA256(passwordInout.getText()))) {
                     isAdmin = loginUser.isAdmin();
                     isLogin = true;
+                    isRoot = nameInput.getText().equals("root");
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "登录成功");
                     Optional<ButtonType> buttonType = alert.showAndWait();
                     if (buttonType.get() == ButtonType.OK) {
@@ -140,14 +142,6 @@ public class HelloController {
                 e.printStackTrace(System.out);
                 new Alert(Alert.AlertType.ERROR, "注册失败，已存在该用户").showAndWait();
             }
-            // 点击确定和取消的操作
-//            if (buttonType.get() == ButtonType.OK) {
-//                signButton.setText("admin"+nameInput.getText());
-//                System.out.println("确认");
-//            }else{
-//                System.out.println("取消");
-//                signButton.setText(nameInput.getText());
-//            }
         }
     }
 
@@ -179,7 +173,7 @@ public class HelloController {
         }
     }
 
-    public void enterKey(KeyEvent keyEvent) {
+    public void enterKey(@NotNull KeyEvent keyEvent) {
         if (keyEvent.getCode().toString().equals("ENTER")) {
             if (signCheck) {
                 onSignButtonClick();
