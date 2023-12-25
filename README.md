@@ -20,40 +20,25 @@ Java课程设计
 
 - 语言：Java 17
 
-- IDE(JAVA)： IDEA
+- IDE(Java)： IDEA
 
 - 依赖管理：Maven 3.9+
 
 - 数据库：MySQL 8.0+
 
-数据库管理实现类结构和接口：
+### 后端类关系：
 
-```java
-/**
- * 数据库用户管理实现类
- * */
-public class UserDaoImpl extends DBUtil implements UserDao, AutoCloseable {
-    // 将用户信息添加到数据库
-    public boolean addUser(User user) throws Exception;
+![本地路径](src/main/resources/image/UML.png )
 
-    // 将用户信息更改应用到数据库
-    public boolean updateUser(User user) throws Exception;
-
-    // 从数据库中删除用户信息
-    public boolean deleteUser(int id) throws Exception;
-
-    // 根据用户id在数据库中查询用户信息
-    public User getUserById(int id) throws Exception;
-
-    // 调取数据库中所有用户信息
-    public List<User> getAllUser() throws Exception;
-}
-```
 
 加密实现：
+
 ```java
+import org.jetbrains.annotations.NotNull;
+
 public class SHA256 {
-    public static String getSHA256(String input) {
+    @NotNull
+    public static String getSHA256(@NotNull String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] messageDigest = md.digest(input.getBytes());
