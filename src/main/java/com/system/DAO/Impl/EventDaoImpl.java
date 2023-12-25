@@ -1,6 +1,6 @@
-package com.system.Service;
+package com.system.DAO.Impl;
 
-import com.system.DAO.dao.EventDao;
+import com.system.DAO.EventDao;
 import com.system.DAO.polo.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,10 +40,10 @@ public class EventDaoImpl extends BasicDaoImpl implements EventDao {
         boolean result = update(updateSQL, event.getTitle(), event.getTime(), event.getMean(), event.getId());
         if (result) {
             // 删除ev_roc表上的相关记录
-            delete("DELETE * FROM `ev_roc` WHERE `eid` = ?", event.getId());
+            delete("DELETE FROM `ev_roc` WHERE `eid` = ?", event.getId());
             updateRocket_alias(event);
             // 删除ev_ast表上的相关记录
-            delete("DELETE * FROM `ev_ast` WHERE `eid` = ?", event.getId());
+            delete("DELETE FROM `ev_ast` WHERE `eid` = ?", event.getId());
             updateAstronaut_alias(event);
         }
         return result;
@@ -57,8 +57,9 @@ public class EventDaoImpl extends BasicDaoImpl implements EventDao {
             } catch (SQLException ignored) {
             } finally {
                 var resultSet = get("SELECT `aid` FROM `astronaut` WHERE `name` = ?", i);
-                resultSet.next();
-                add("INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (?, ?)", event.getId(), resultSet.getInt("aid"));
+                if (resultSet.next()) {
+                    add("INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (?, ?)", event.getId(), resultSet.getInt("aid"));
+                }
             }
         }
     }
@@ -70,9 +71,10 @@ public class EventDaoImpl extends BasicDaoImpl implements EventDao {
                 add("INSERT INTO `rocket` (`rocketName`) VALUES (?)", i);
             } catch (SQLException ignored) {
             } finally {
-                var resultSet = get("SELECT `rid` FROM `rocket` WHERE `rocketName` = ?", i);
-                resultSet.next();
-                add("INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (?, ?)", event.getId(), resultSet.getInt("rid"));
+                var resultSet = get("SELECT `rocketID` FROM `rocket` WHERE `rocketName` = ?", i);
+                if (resultSet.next()) {
+                    add("INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (?, ?)", event.getId(), resultSet.getInt("rocketID"));
+                }
             }
         }
     }
@@ -81,8 +83,8 @@ public class EventDaoImpl extends BasicDaoImpl implements EventDao {
     public boolean deleteEvent(int id) throws Exception {
         String deleteSQL = "DELETE FROM `event` WHERE `eid` = ?";
         if (delete(deleteSQL, id)) {
-            delete("DELETE * FROM `ev_roc` WHERE `eid` = ?", id);
-            delete("DELETE * FROM `ev_ast` WHERE `eid` = ?", id);
+            delete("DELETE FROM `ev_roc` WHERE `eid` = ?", id);
+            delete("DELETE FROM `ev_ast` WHERE `eid` = ?", id);
             return true;
         }
         return false;

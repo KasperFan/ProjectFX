@@ -1,6 +1,6 @@
-package com.system.Service;
+package com.system.DAO.Impl;
 
-import com.system.DAO.dao.UserDao;
+import com.system.DAO.UserDao;
 import com.system.DAO.polo.User;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

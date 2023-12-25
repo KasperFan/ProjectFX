@@ -1,6 +1,6 @@
-package com.system.Service;
+package com.system.DAO.Impl;
 
-import com.system.DAO.dao.AstronautDao;
+import com.system.DAO.AstronautDao;
 import com.system.DAO.polo.Astronaut;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

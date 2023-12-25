@@ -1,4 +1,4 @@
-package com.system.boot;
+package com.system;
 
 import com.system.JavaFX.view.ProjectApplication;
 

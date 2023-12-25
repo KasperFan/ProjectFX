@@ -1,8 +1,8 @@
-package com.system.DAO.dao;
+package com.system.DAO;
 
 import java.sql.ResultSet;
 
-public interface BasicDAO {
+public interface BasicDAO<T> {
     boolean add(String preparedSQL, Object... params) throws Exception;
 
     boolean update(String preparedSQL, Object... params) throws Exception;

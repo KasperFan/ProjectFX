@@ -1,8 +1,8 @@
 package com.system.JavaFX.controller;
 
 import com.system.DAO.polo.User;
-import com.system.DAO.utils.SHA256;
-import com.system.Service.UserDaoImpl;
+import com.system.utils.SHA256;
+import com.system.DAO.Impl.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

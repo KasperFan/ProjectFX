@@ -1,13 +1,11 @@
-package com.system.Service;
+package com.system.DAO.Impl;
 
-import com.system.DAO.dao.RocketDao;
+import com.system.DAO.RocketDao;
 import com.system.DAO.polo.Rocket;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -90,7 +88,7 @@ public class RocketDaoImpl extends BasicDaoImpl implements RocketDao {
             launchDate = "未发射";
             inOrbitTime = -1;
         }
-        return new Rocket(rst.getInt("rocketID"), rst.getString("rocketName"), launchDate, inOrbitTime);
+        return new Rocket(rst.getString("rocketName"), launchDate, inOrbitTime);
     }
 
     public List<Rocket> getAllRocketsByID(int id) throws Exception {

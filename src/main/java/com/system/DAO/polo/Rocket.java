@@ -6,7 +6,7 @@ public class Rocket {
     private String launchDate;
     private int inOrbitTime;
 
-    public Rocket(int rocketID, String rocketName, String launchDate, int inOrbitTime) {
+    public Rocket(String rocketName, String launchDate, int inOrbitTime) {
         this.rocketID = rocketID;
         this.rocketName = rocketName;
         this.launchDate = launchDate;

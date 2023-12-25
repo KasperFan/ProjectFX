@@ -1,6 +1,6 @@
 package com.system.DAO.polo;
 
-import com.system.DAO.utils.SHA256;
+import com.system.utils.SHA256;
 
 public class User {
     private int id;

@@ -1,11 +1,11 @@
-package com.system.Service;
+package com.system.DAO.Impl;
 
-import com.system.DAO.dao.BasicDAO;
-import com.system.DAO.utils.DBUtil;
+import com.system.DAO.BasicDAO;
+import com.system.utils.DBUtil;
 
 import java.sql.ResultSet;
 
-public class BasicDaoImpl extends DBUtil implements BasicDAO, AutoCloseable {
+public class BasicDaoImpl<T> extends DBUtil implements BasicDAO<T>, AutoCloseable {
     public BasicDaoImpl() {
         super();
     }

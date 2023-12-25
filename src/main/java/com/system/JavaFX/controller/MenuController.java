@@ -3,10 +3,10 @@ package com.system.JavaFX.controller;
 import com.system.DAO.polo.Astronaut;
 import com.system.DAO.polo.Rocket;
 import com.system.DAO.polo.User;
-import com.system.Service.AstronautDaoImpl;
-import com.system.Service.EventDaoImpl;
-import com.system.Service.RocketDaoImpl;
-import com.system.Service.UserDaoImpl;
+import com.system.DAO.Impl.AstronautDaoImpl;
+import com.system.DAO.Impl.EventDaoImpl;
+import com.system.DAO.Impl.RocketDaoImpl;
+import com.system.DAO.Impl.UserDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.system.DAO.polo.Event;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import static com.system.JavaFX.view.ProjectApplication.isAdmin;
@@ -109,12 +108,14 @@ public class MenuController {
     public void historyClick() {
         if (!isHistory) {
             isHistory = true;
+            listButton.setVisible(false);
             pauseButton.setVisible(true);
             historyButton.setText("返回");
             mediaView.setVisible(true);
             historyPlayer.play();
         } else {
             isHistory = false;
+            listButton.setVisible(true);
             pauseButton.setVisible(false);
             historyButton.setText("历史回顾");
             mediaView.setVisible(false);
@@ -165,10 +166,6 @@ public class MenuController {
         rTime.setCellValueFactory(new PropertyValueFactory<>("launchDate"));
         rOrbit.setCellValueFactory(new PropertyValueFactory<>("inOrbitTime"));
         rocketsList.addAll(list);
-        for (var i :
-                rocketsList) {
-            System.out.println(i);
-        }
         rocketTable.setItems(rocketsList);
     }
 
@@ -181,10 +178,6 @@ public class MenuController {
         eAstn.setCellValueFactory(new PropertyValueFactory<>("astronauts"));
         eMean.setCellValueFactory(new PropertyValueFactory<>("mean"));
         eventList.addAll(list);
-        for (var i :
-                eventList) {
-            System.out.println(i);
-        }
         eventTable.setItems(eventList);
     }
 
@@ -195,10 +188,6 @@ public class MenuController {
         aAge.setCellValueFactory(new PropertyValueFactory<>("age"));
         aSex.setCellValueFactory(new PropertyValueFactory<>("sex"));
         astronautsList.addAll(list);
-        for (var i :
-                astronautsList) {
-            System.out.println(i);
-        }
         astronautTable.setItems(astronautsList);
     }
 
@@ -207,12 +196,8 @@ public class MenuController {
         uid.setCellValueFactory(new PropertyValueFactory<>("id"));
         uName.setCellValueFactory(new PropertyValueFactory<>("name"));
         uPswd.setCellValueFactory(new PropertyValueFactory<>("password"));
-        uIsAdmin.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
+//        uIsAdmin.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
         users.addAll(list);
-        for (var i :
-                users) {
-            System.out.println(i);
-        }
         userTable.setItems(users);
     }
 
@@ -616,7 +601,7 @@ public class MenuController {
                             "rocketName",
                             "launchDate",
                             "in_orbitTime")) {
-                        if (rocketDao.addRocket(new Rocket(Integer.parseInt(textField1.getText()), textField2.getText(), textField3.getText(), Integer.parseInt(textField4.getText())))) {
+                        if (rocketDao.addRocket(new Rocket(textField2.getText(), textField3.getText(), Integer.parseInt(textField4.getText())))) {
                             new Alert(Alert.AlertType.INFORMATION, "添加成功").showAndWait();
                             initData();
                             stage.close();
@@ -671,7 +656,7 @@ public class MenuController {
         pane.setPadding(new Insets(11, 12, 13, 14));
         pane.setVgap(5);
         pane.setHgap(5);
-        Label label = new Label("查询对象：");
+        Label label = new Label("删除对象：");
         MenuItem item1 = new MenuItem("事件");
         MenuItem item2 = new MenuItem("火箭");
         MenuItem item3 = new MenuItem("宇航员");
@@ -687,6 +672,7 @@ public class MenuController {
 
         Stage stage = new Stage();
         stage.setTitle("删除记录");
+        stage.setResizable(false);
         stage.setScene(new Scene(pane, 180, 90));
         stage.show();
 
@@ -776,7 +762,7 @@ public class MenuController {
                     }
                     break;
                 default:
-                    new Alert(Alert.AlertType.ERROR, "请选择查询对象").showAndWait();
+                    new Alert(Alert.AlertType.ERROR, "请选择删除对象").showAndWait();
                     break;
             }
         });
@@ -866,6 +852,7 @@ public class MenuController {
         Stage stage = new Stage();
         stage.setResizable(false);
         stage.setTitle("修改数据");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
 
@@ -952,7 +939,7 @@ public class MenuController {
                             "rocketName",
                             "launchDate",
                             "in_orbitTime")) {
-                        if (rocketDao.updateRocket(new Rocket(Integer.parseInt(textField1.getText()), textField2.getText(), textField3.getText(), Integer.parseInt(textField4.getText())))) {
+                        if (rocketDao.updateRocket(new Rocket(textField1.getText(), textField2.getText(), Integer.parseInt(textField3.getText())))) {
                             new Alert(Alert.AlertType.INFORMATION, "修改成功").showAndWait();
                             initData();
                             stage.close();

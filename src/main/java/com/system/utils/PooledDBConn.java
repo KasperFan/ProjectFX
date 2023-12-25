@@ -1,4 +1,4 @@
-package com.system.DAO.utils;
+package com.system.utils;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
