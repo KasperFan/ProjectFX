@@ -1,6 +1,5 @@
 Java课程设计
 ===============
------
 
 密码加密使用SHA-256，将输入加密后与数据库中存储的密文比较，提高安全性！
 
@@ -26,9 +25,13 @@ Java课程设计
 
 - 数据库：MySQL 8.0+
 
+### 后端结构图：
+
+![后端业务结构](src/main/resources/image/backend.png)
+
 ### 后端类关系：
 
-![本地路径](src/main/resources/image/UML.png )
+![本地路径](src/main/resources/image/UML.png)
 
 
 加密实现：
@@ -51,6 +54,39 @@ public class SHA256 {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+}
+```
+
+数据库连接池实现类：
+```java
+public class PooledDBConn {
+    private static final ComboPooledDataSource dataSource = new ComboPooledDataSource();
+    static {
+        try (Scanner sc = new Scanner(Objects.requireNonNull(PooledDBConn.class.getClassLoader().getResourceAsStream("config.yml")))) {
+            // 注册驱动
+            dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
+            // 设置连接参数
+            dataSource.setJdbcUrl(sc.nextLine().split(": ")[1]);
+            dataSource.setUser(sc.nextLine().split(": ")[1]);
+            dataSource.setPassword(sc.nextLine().split(": ")[1]);
+            dataSource.setMaxPoolSize(40);
+            dataSource.setMinPoolSize(2);
+            dataSource.setInitialPoolSize(10);
+            dataSource.setMaxStatements(100);
+        } catch (PropertyVetoException e) {
+            e.printStackTrace(System.err);
+        }
+    }
+    @Nullable
+    public static Connection getConnection() throws SQLException {
+        // 获得数据库连接
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 ```
