@@ -1,7 +1,7 @@
 package com.system.DAO.Impl;
 
 import com.system.DAO.EventDao;
-import com.system.DAO.polo.Event;
+import com.system.DAO.entity.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EventDaoImpl extends BasicDaoImpl implements EventDao {
+public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
     private final String getSQL = "SELECT * FROM `event` %s";
 
     @Override

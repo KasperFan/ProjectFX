@@ -8,9 +8,10 @@ module com.system {
     requires c3p0;
     requires java.naming;
     requires javafx.media;
+    requires mchange.commons.java;
 
 
-    exports com.system.DAO.polo;
+    exports com.system.DAO.entity;
     exports com.system.JavaFX.view;
     opens com.system.JavaFX.view to javafx.fxml;
     exports com.system.JavaFX.controller;

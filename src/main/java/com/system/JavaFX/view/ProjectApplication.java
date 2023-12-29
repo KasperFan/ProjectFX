@@ -28,8 +28,8 @@ public class ProjectApplication extends Application {
             if (isLogin) {
                 try {
                     loadScene(stage1);
+                    stage1.show();
                 } catch (IOException ignored) {}
-                stage1.show();
             }
         });
 
@@ -47,7 +47,7 @@ public class ProjectApplication extends Application {
         stage1.setTitle("中国航空航天展示系统面板");
         stage1.setScene(scene2);
     }
-    public static void launch(String[] args) {
-        launch();
+    public static void launch(String... args) {
+        Application.launch(args);
     }
 }

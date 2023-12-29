@@ -1,9 +1,8 @@
 package com.system.JavaFX.controller;
 
-import com.system.DAO.polo.User;
+import com.system.DAO.entity.User;
 import com.system.utils.SHA256;
 import com.system.DAO.Impl.UserDaoImpl;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
@@ -65,7 +64,7 @@ public class HelloController {
                     new Alert(Alert.AlertType.ERROR, "密码错误，或用户不存在！").showAndWait();
                 }
             } catch (Exception any) {
-                any.printStackTrace();
+                any.printStackTrace(System.out);
             }
         }
     }
@@ -95,17 +94,7 @@ public class HelloController {
                             if (!result) {
                                 new Alert(Alert.AlertType.ERROR, "注册失败，已存在该用户").showAndWait();
                             } else {
-                                new Alert(Alert.AlertType.INFORMATION, "注册成功").showAndWait();
-                                loginCheck = !loginCheck;
-                                signCheck = !signCheck;
-                                backButton.setLayoutX(279.0);
-                                backButton.setVisible(false);
-                                signButton.setLayoutX(367.0);
-                                signButton.setVisible(false);
-                                loginButton.setVisible(true);
-                                loginButton.setLayoutX(244.0);
-                                adminToken.setVisible(false);
-                                ifAdminMode.setVisible(false);
+                                signSucceed();
                             }
                         } else {
                             new Alert(Alert.AlertType.ERROR, "管理员令牌错误").showAndWait();
@@ -113,29 +102,12 @@ public class HelloController {
                         System.out.println("确认");
                     } else {
                         signCheck = !signCheck;
-                        backButton.setLayoutX(279.0);
-                        loginButton.setVisible(true);
-                        nameInput.setVisible(false);
-                        passwordInout.setVisible(false);
-                        backButton.setVisible(false);
-                        adminToken.setVisible(false);
-                        ifAdminMode.setVisible(false);
-                        signButton.setLayoutX(367.0);
+                        fromSignBack();
                     }
                 } else {
                     var result = userDao.addUser(new User(nameInput.getText(), passwordInout.getText(), false));
                     if (result) {
-                        new Alert(Alert.AlertType.INFORMATION, "注册成功").showAndWait();
-                        loginCheck = !loginCheck;
-                        signCheck = !signCheck;
-                        backButton.setLayoutX(279.0);
-                        backButton.setVisible(false);
-                        signButton.setLayoutX(367.0);
-                        signButton.setVisible(false);
-                        loginButton.setVisible(true);
-                        loginButton.setLayoutX(244.0);
-                        adminToken.setVisible(false);
-                        ifAdminMode.setVisible(false);
+                        signSucceed();
                     }
                 }
             } catch (Exception e) {
@@ -145,23 +117,30 @@ public class HelloController {
         }
     }
 
+    private void signSucceed() {
+        new Alert(Alert.AlertType.INFORMATION, "注册成功").showAndWait();
+        loginCheck = !loginCheck;
+        signCheck = !signCheck;
+        backButton.setLayoutX(279.0);
+        backButton.setVisible(false);
+        signButton.setLayoutX(367.0);
+        signButton.setVisible(false);
+        loginButton.setVisible(true);
+        loginButton.setLayoutX(244.0);
+        adminToken.setVisible(false);
+        ifAdminMode.setVisible(false);
+    }
+
     @FXML
-    public void onAdminModeClick(ActionEvent actionEvent) {
+    public void onAdminModeClick() {
         adminToken.setVisible(ifAdminMode.isSelected());
     }
 
     @FXML
-    public void onBackButtonClick(ActionEvent actionEvent) {
+    public void onBackButtonClick() {
         if (signCheck) {
             signCheck = false;
-            backButton.setLayoutX(279.0);
-            loginButton.setVisible(true);
-            nameInput.setVisible(false);
-            passwordInout.setVisible(false);
-            backButton.setVisible(false);
-            adminToken.setVisible(false);
-            ifAdminMode.setVisible(false);
-            signButton.setLayoutX(367.0);
+            fromSignBack();
         } else if (loginCheck) {
             loginCheck = false;
             backButton.setLayoutX(159.0);
@@ -171,6 +150,17 @@ public class HelloController {
             passwordInout.setVisible(false);
             loginButton.setLayoutX(130.0);
         }
+    }
+
+    private void fromSignBack() {
+        backButton.setLayoutX(279.0);
+        loginButton.setVisible(true);
+        nameInput.setVisible(false);
+        passwordInout.setVisible(false);
+        backButton.setVisible(false);
+        adminToken.setVisible(false);
+        ifAdminMode.setVisible(false);
+        signButton.setLayoutX(367.0);
     }
 
     public void enterKey(@NotNull KeyEvent keyEvent) {

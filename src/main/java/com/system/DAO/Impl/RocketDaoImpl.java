@@ -1,7 +1,7 @@
 package com.system.DAO.Impl;
 
 import com.system.DAO.RocketDao;
-import com.system.DAO.polo.Rocket;
+import com.system.DAO.entity.Rocket;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class RocketDaoImpl extends BasicDaoImpl implements RocketDao {
+public class RocketDaoImpl extends BasicDaoImpl<Rocket> implements RocketDao {
     private String addSQL = "INSERT INTO `%s` (%s) VALUES (%s)";
     private String updateSQL = "UPDATE `%s` SET %s WHERE %s";
     private String deleteSQL = "DELETE FROM `%s` WHERE %s";
@@ -22,8 +22,8 @@ public class RocketDaoImpl extends BasicDaoImpl implements RocketDao {
         String format = String.format("`%s`, `%s`, `%s`, `%s`", rocketIdHead, rocketNameHead, rocketLaunchDateHead, rocketInOrbitTimeHead);
         addSQL = String.format(addSQL,
                 tableName,
-                format,
-                "%s");
+                String.format("`%s`, `%s`, `%s`", rocketNameHead, rocketLaunchDateHead, rocketInOrbitTimeHead),
+                "?, ?, ?");
         updateSQL = String.format(updateSQL,
                 tableName,
                 String.format("`%s` = ?, `%s` = ?, `%s` = ?",
@@ -43,7 +43,7 @@ public class RocketDaoImpl extends BasicDaoImpl implements RocketDao {
 
     @Override
     public boolean addRocket(@NotNull Rocket rocket) throws Exception {
-        return super.add(addSQL, rocket.getRocketID(), rocket.getRocketName(), rocket.getLaunchDate(), rocket.getInOrbitTime());
+        return super.add(addSQL, rocket.getRocketName(), rocket.getLaunchDate(), rocket.getInOrbitTime());
     }
 
     @Override
@@ -88,7 +88,7 @@ public class RocketDaoImpl extends BasicDaoImpl implements RocketDao {
             launchDate = "未发射";
             inOrbitTime = -1;
         }
-        return new Rocket(rst.getString("rocketName"), launchDate, inOrbitTime);
+        return new Rocket(rst.getInt("rocketID"), rst.getString("rocketName"), launchDate, inOrbitTime);
     }
 
     public List<Rocket> getAllRocketsByID(int id) throws Exception {

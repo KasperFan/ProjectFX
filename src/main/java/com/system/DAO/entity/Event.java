@@ -1,4 +1,4 @@
-package com.system.DAO.polo;
+package com.system.DAO.entity;
 
 public class Event {
     private int id;

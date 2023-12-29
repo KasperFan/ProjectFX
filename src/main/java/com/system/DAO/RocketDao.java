@@ -1,10 +1,10 @@
 package com.system.DAO;
 
-import com.system.DAO.polo.Rocket;
+import com.system.DAO.entity.Rocket;
 
 import java.util.List;
 
-public interface RocketDao extends BasicDAO {
+public interface RocketDao extends BasicDAO<Rocket> {
     boolean addRocket(Rocket rocket) throws Exception;
 
     boolean updateRocket(Rocket rocket) throws Exception;

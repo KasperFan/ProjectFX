@@ -1,10 +1,10 @@
 package com.system.DAO;
 
-import com.system.DAO.polo.User;
+import com.system.DAO.entity.User;
 
 import java.util.List;
 
-public interface UserDao extends BasicDAO {
+public interface UserDao extends BasicDAO<User> {
     boolean addUser(User user) throws Exception;
 
     boolean updateUser(User user) throws Exception;

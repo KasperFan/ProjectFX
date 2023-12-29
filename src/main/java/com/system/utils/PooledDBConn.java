@@ -1,6 +1,7 @@
 package com.system.utils;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
@@ -27,14 +28,14 @@ public class PooledDBConn {
             e.printStackTrace(System.err);
         }
     }
+    @Nullable
     public static Connection getConnection() throws SQLException {
-        Connection conn = null;
         // 获得数据库连接
         try {
-            conn = dataSource.getConnection();
+            return dataSource.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return conn;
+        return null;
     }
 }

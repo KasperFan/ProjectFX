@@ -1,7 +1,7 @@
 package com.system.DAO.Impl;
 
 import com.system.DAO.UserDao;
-import com.system.DAO.polo.User;
+import com.system.DAO.entity.User;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserDaoImpl extends BasicDaoImpl implements UserDao {
+public class UserDaoImpl extends BasicDaoImpl<User> implements UserDao {
     private String addSQL = "INSERT INTO `%s` (%s) VALUES (%s)";
     private String updateSQL = "UPDATE `%s` SET %s WHERE %s";
     private String deleteSQL = "DELETE FROM `%s` WHERE %s";

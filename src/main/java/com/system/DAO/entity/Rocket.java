@@ -1,4 +1,4 @@
-package com.system.DAO.polo;
+package com.system.DAO.entity;
 
 public class Rocket {
     private int rocketID;
@@ -6,8 +6,14 @@ public class Rocket {
     private String launchDate;
     private int inOrbitTime;
 
-    public Rocket(String rocketName, String launchDate, int inOrbitTime) {
+    public Rocket(int rocketID, String rocketName, String launchDate, int inOrbitTime) {
         this.rocketID = rocketID;
+        this.rocketName = rocketName;
+        this.launchDate = launchDate;
+        this.inOrbitTime = inOrbitTime;
+    }
+
+    public Rocket(String rocketName, String launchDate, int inOrbitTime) {
         this.rocketName = rocketName;
         this.launchDate = launchDate;
         this.inOrbitTime = inOrbitTime;

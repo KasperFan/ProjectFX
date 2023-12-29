@@ -76,6 +76,10 @@ public class DBUtil implements AutoCloseable {
                 pstmt.setInt(i + 1, (int) param[i]);
             } else if (param[i] instanceof Double) {
                 pstmt.setDouble(i + 1, (double) param[i]);
+            } else if (param[i] instanceof Float) {
+                pstmt.setFloat(i + 1, (float) param[i]);
+            } else if (param[i] instanceof Long) {
+                pstmt.setInt(i + 1, (int)((long) param[i]));
             }
         }
     }

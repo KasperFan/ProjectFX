@@ -1,10 +1,10 @@
 package com.system.DAO;
 
-import com.system.DAO.polo.Event;
+import com.system.DAO.entity.Event;
 
 import java.util.List;
 
-public interface EventDao extends BasicDAO {
+public interface EventDao extends BasicDAO<Event> {
     boolean addEvent(Event event) throws Exception;
 
     boolean updateEvent(Event event) throws Exception;

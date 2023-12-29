@@ -1,7 +1,7 @@
 package com.system.DAO.Impl;
 
 import com.system.DAO.AstronautDao;
-import com.system.DAO.polo.Astronaut;
+import com.system.DAO.entity.Astronaut;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,11 +9,11 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AstronautDaoImpl extends BasicDaoImpl implements AstronautDao {
-    private String deleteSQL = "DELETE FROM `astronaut` WHERE `aid` = ?";
-    private String updateSQL = "UPDATE `astronaut` SET `name` = ?, `age` = ?, `sex` = ? WHERE `aid` = ?";
-    private String selectSQL = "SELECT * FROM `astronaut` %s";
-    private String sentence = "WHERE `aid` = ?";
+public class AstronautDaoImpl extends BasicDaoImpl<Astronaut> implements AstronautDao {
+    private final String deleteSQL = "DELETE FROM `astronaut` WHERE `aid` = ?";
+    private final String updateSQL = "UPDATE `astronaut` SET `name` = ?, `age` = ?, `sex` = ? WHERE `aid` = ?";
+    private final String selectSQL = "SELECT * FROM `astronaut` %s";
+    private final String sentence = "WHERE `aid` = ?";
 
     @Override
     public boolean addAstronaut(@NotNull Astronaut astronaut) throws Exception {
@@ -43,7 +43,7 @@ public class AstronautDaoImpl extends BasicDaoImpl implements AstronautDao {
 
     @Override
     public List<Astronaut> getAllAstronauts() throws Exception {
-        LinkedList<Astronaut> astronauts = new LinkedList<>();
+        List<Astronaut> astronauts = new LinkedList<>();
         ResultSet resultSet = get(String.format(selectSQL, "LIMIT 0,?"), 1000);
         while (resultSet.next()) {
             astronauts.add(new Astronaut(resultSet.getInt("aid"), resultSet.getString("name"), resultSet.getInt("age"), resultSet.getString("sex")));

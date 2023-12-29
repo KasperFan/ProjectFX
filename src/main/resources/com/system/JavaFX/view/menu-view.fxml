@@ -56,7 +56,7 @@
                             </Menu>
                         </menus>
                     </MenuBar>
-                    <TabPane layoutY="27.5" maxHeight="467.5" prefWidth="880.0" tabClosingPolicy="UNAVAILABLE">
+                    <TabPane fx:id="tabPane" layoutY="27.5" maxHeight="467.5" prefWidth="880.0" tabClosingPolicy="UNAVAILABLE">
                         <tabs>
                             <Tab text="事件表">
                                 <content>
