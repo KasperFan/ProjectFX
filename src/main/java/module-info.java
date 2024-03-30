@@ -6,9 +6,7 @@ module com.system {
     requires annotations;
     requires java.desktop;
     requires c3p0;
-    requires java.naming;
     requires javafx.media;
-    requires mchange.commons.java;
 
 
     exports com.system.DAO.entity;

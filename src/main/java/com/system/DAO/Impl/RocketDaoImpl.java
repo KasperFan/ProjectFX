@@ -1,7 +1,8 @@
 package com.system.DAO.Impl;
 
-import com.system.DAO.RocketDao;
+import com.system.DAO.dao.RocketDao;
 import com.system.DAO.entity.Rocket;
+import com.system.utils.DBUtil;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class RocketDaoImpl extends BasicDaoImpl<Rocket> implements RocketDao {
+public class RocketDaoImpl extends DBUtil implements RocketDao {
     private String addSQL = "INSERT INTO `%s` (%s) VALUES (%s)";
     private String updateSQL = "UPDATE `%s` SET %s WHERE %s";
     private String deleteSQL = "DELETE FROM `%s` WHERE %s";
@@ -42,23 +43,23 @@ public class RocketDaoImpl extends BasicDaoImpl<Rocket> implements RocketDao {
     }
 
     @Override
-    public boolean addRocket(@NotNull Rocket rocket) throws Exception {
-        return super.add(addSQL, rocket.getRocketName(), rocket.getLaunchDate(), rocket.getInOrbitTime());
+    public boolean add(@NotNull Rocket rocket) throws Exception {
+        return super.executeUpdate(addSQL, rocket.getRocketName(), rocket.getLaunchDate(), rocket.getInOrbitTime()) > 0;
     }
 
     @Override
-    public boolean updateRocket(@NotNull Rocket rocket) throws Exception {
-        return super.update(updateSQL, rocket.getRocketName(), rocket.getLaunchDate(), rocket.getInOrbitTime(), rocket.getRocketID());
+    public boolean update(@NotNull Rocket rocket) throws Exception {
+        return super.executeUpdate(updateSQL, rocket.getRocketName(), rocket.getLaunchDate(), rocket.getInOrbitTime(), rocket.getRocketID()) > 0;
     }
 
     @Override
-    public boolean deleteRocket(int id) throws Exception {
-        return super.delete(deleteSQL, id);
+    public boolean delete(int id) throws Exception {
+        return super.executeUpdate(deleteSQL, id) > 0;
     }
 
     @Override
-    public Rocket getRocketByName(String name) throws Exception {
-        ResultSet rst = super.get(String.format(getSQL, sentence), name);
+    public Rocket get(int id) throws Exception {
+        ResultSet rst = super.executeQuery(String.format(getSQL, String.format(sentence, "`rid` = ?")), id);
         if (rst.next()) {
             return initRocket(rst);
         }
@@ -66,9 +67,18 @@ public class RocketDaoImpl extends BasicDaoImpl<Rocket> implements RocketDao {
     }
 
     @Override
-    public List<Rocket> getAllRockets() throws Exception {
+    public Rocket get(String name) throws Exception {
+        ResultSet rst = super.executeQuery(String.format(getSQL, sentence), name);
+        if (rst.next()) {
+            return initRocket(rst);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Rocket> getAll() throws Exception {
         LinkedList<Rocket> rockets = new LinkedList<>();
-        ResultSet rst = super.get(String.format(getSQL, ""));
+        ResultSet rst = super.executeQuery(String.format(getSQL, ""));
         while (rst.next()) {
             rockets.add(initRocket(rst));
         }
@@ -91,18 +101,20 @@ public class RocketDaoImpl extends BasicDaoImpl<Rocket> implements RocketDao {
         return new Rocket(rst.getInt("rocketID"), rst.getString("rocketName"), launchDate, inOrbitTime);
     }
 
-    public List<Rocket> getAllRocketsByID(int id) throws Exception {
+    @Override
+    public List<Rocket> getAll(int id) throws Exception {
         LinkedList<Rocket> rockets = new LinkedList<>();
-        ResultSet rst = super.get(String.format(getSQL, "WHERE `rocketID` = ?"), id);
+        ResultSet rst = super.executeQuery(String.format(getSQL, "WHERE `rocketID` = ?"), id);
         while (rst.next()) {
             rockets.add(initRocket(rst));
         }
         return rockets;
     }
 
-    public List<Rocket> getAllRocketsByName(String name) throws Exception{
+    @Override
+    public List<Rocket> getAll(String name) throws Exception{
         LinkedList<Rocket> rockets = new LinkedList<>();
-        ResultSet rst = super.get(String.format(getSQL, "WHERE `rocketName` LIKE ?"), String.format("%%%s%%", name));
+        ResultSet rst = super.executeQuery(String.format(getSQL, "WHERE `rocketName` LIKE ?"), String.format("%%%s%%", name));
         while (rst.next()) {
             rockets.add(initRocket(rst));
         }

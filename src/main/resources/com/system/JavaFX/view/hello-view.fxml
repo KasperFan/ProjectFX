@@ -15,44 +15,40 @@
            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.system.JavaFX.controller.HelloController">
     <AnchorPane fx:id="rootHelloPane" prefHeight="400.0" prefWidth="600.0" onKeyPressed="#enterKey">
-        <children>
-            <ImageView fitHeight="400.0" fitWidth="600.0">
-                <image>
-                    <Image url="@../../../../image/background.jpg"/>
-                </image>
-            </ImageView>
-            <Button fx:id="backButton" layoutX="279.0" layoutY="272.0" mnemonicParsing="false" text="返回"
-                    visible="false"
-                    onAction="#onBackButtonClick"/>
-            <Label layoutX="130.0" layoutY="69.0" prefHeight="43.0" prefWidth="343.0"
-                   text="欢迎来到中国航空航天展示系统"
-                   textAlignment="CENTER" textFill="#a81313">
-                <font>
-                    <Font name="Xingkai SC Bold" size="24.0"/>
-                </font>
-            </Label>
-            <TextField fx:id="nameInput" layoutX="193.0" layoutY="130.0" prefHeight="26.0" prefWidth="216.0"
-                       promptText="请输入用户名" visible="false"/>
-            <PasswordField fx:id="passwordInout" layoutX="193.0" layoutY="174.0" prefHeight="26.0" prefWidth="216.0"
-                           promptText="请输入密码" visible="false"/>
-            <CheckBox fx:id="ifAdminMode" layoutX="194.0" layoutY="220.0" mnemonicParsing="false"
-                      onAction="#onAdminModeClick" text="管理员?" visible="false"/>
-            <PasswordField fx:id="adminToken" layoutX="270.0" layoutY="215.0" prefHeight="18.0" prefWidth="139.0"
-                           promptText="请输入管理员token" visible="false"/>
-            <Button fx:id="loginButton" layoutX="130.0" layoutY="263.0" mnemonicParsing="false"
-                    onAction="#onLoginButtonClick" prefHeight="44.0" prefWidth="100.0" text="登录">
-                <font>
-                    <Font name="Xingkai TC Bold" size="18.0"/>
-                </font>
-            </Button>
-            <Button fx:id="signButton" layoutX="367.0" layoutY="263.0" mnemonicParsing="false"
-                    onAction="#onSignButtonClick"
-                    prefHeight="44.0" prefWidth="100.0" text="注册">
-                <font>
-                    <Font name="Xingkai TC Bold" size="18.0"/>
-                </font>
-            </Button>
-        </children>
+        <ImageView fitHeight="400.0" fitWidth="600.0">
+            <Image url="@../../../../image/background.jpg"/>
+        </ImageView>
+        <Button fx:id="backButton" layoutX="279.0" layoutY="272.0" mnemonicParsing="false" text="返回"
+                visible="false"
+                onAction="#onBackButtonClick"/>
+        <Label layoutX="130.0" layoutY="69.0" prefHeight="43.0" prefWidth="343.0"
+               text="欢迎来到中国航空航天展示系统"
+               textAlignment="CENTER" textFill="#a81313">
+            <font>
+                <Font name="Xingkai SC Bold" size="24.0"/>
+            </font>
+        </Label>
+        <TextField fx:id="nameInput" layoutX="193.0" layoutY="130.0" prefHeight="26.0" prefWidth="216.0"
+                   promptText="请输入用户名" visible="false"/>
+        <PasswordField fx:id="passwordInout" layoutX="193.0" layoutY="174.0" prefHeight="26.0" prefWidth="216.0"
+                       promptText="请输入密码" visible="false"/>
+        <CheckBox fx:id="ifAdminMode" layoutX="194.0" layoutY="220.0" mnemonicParsing="false"
+                  onAction="#onAdminModeClick" text="管理员?" visible="false"/>
+        <PasswordField fx:id="adminToken" layoutX="270.0" layoutY="215.0" prefHeight="18.0" prefWidth="139.0"
+                       promptText="请输入管理员token" visible="false"/>
+        <Button fx:id="loginButton" layoutX="130.0" layoutY="263.0" mnemonicParsing="false"
+                onAction="#onLoginButtonClick" prefHeight="44.0" prefWidth="100.0" text="登录">
+            <font>
+                <Font name="Xingkai TC Bold" size="18.0"/>
+            </font>
+        </Button>
+        <Button fx:id="signButton" layoutX="367.0" layoutY="263.0" mnemonicParsing="false"
+                onAction="#onSignButtonClick"
+                prefHeight="44.0" prefWidth="100.0" text="注册">
+            <font>
+                <Font name="Xingkai TC Bold" size="18.0"/>
+            </font>
+        </Button>
     </AnchorPane>
 
 </StackPane>
