@@ -1,5 +1,8 @@
 package com.system.JavaFX.controller;
 
+import com.system.DAO.dao.AstronautDao;
+import com.system.DAO.dao.EventDao;
+import com.system.DAO.dao.UserDao;
 import com.system.DAO.entity.Astronaut;
 import com.system.DAO.entity.Rocket;
 import com.system.DAO.entity.User;
@@ -106,6 +109,19 @@ public class MenuController {
     @FXML
     private MediaView mediaView;
 
+    final RocketDaoImpl rocketDao = new RocketDaoImpl("rocket",
+            "rocketID",
+            "rocketName",
+            "launchDate",
+            "in_orbitTime");
+    final EventDao eventDao = new EventDaoImpl();
+    final AstronautDao astronautDao = new AstronautDaoImpl();
+    final UserDao userDao = new UserDaoImpl("user",
+            "uid",
+            "name",
+            "pswd_sha",
+            "is_admin");
+
     public void historyClick() {
         if (!isHistory) {
             isHistory = true;
@@ -154,7 +170,7 @@ public class MenuController {
 
     public void logOut() {
         Optional<ButtonType> buttonType = new Alert(Alert.AlertType.CONFIRMATION, "确认注销吗？").showAndWait();
-        if (buttonType.get() == ButtonType.OK) {
+        if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
             new Alert(Alert.AlertType.INFORMATION, "注销成功").showAndWait();
             rootPane.getScene().getWindow().hide();
         }
@@ -203,32 +219,24 @@ public class MenuController {
     }
 
     public void initData() {
-        try (RocketDaoImpl rocketDao = new RocketDaoImpl("rocket",
-                "rocketID",
-                "rocketName",
-                "launchDate",
-                "in_orbitTime")) {
-            initializeRocket(rocketDao.getAllRockets());
+        try {
+            initializeRocket(rocketDao.getAll());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        try (EventDaoImpl eventDao = new EventDaoImpl()) {
-            initializeEvent(eventDao.getAllEvents());
+        try {
+            initializeEvent(eventDao.getAll());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        try (AstronautDaoImpl astronautDao = new AstronautDaoImpl()) {
-            initializeAstronaut(astronautDao.getAllAstronauts());
+        try {
+            initializeAstronaut(astronautDao.getAll());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         if (isRoot) {
-            try (UserDaoImpl userDao = new UserDaoImpl("user",
-                    "uid",
-                    "name",
-                    "pswd_sha",
-                    "is_admin")) {
-                initializeUser(userDao.getAllUser());
+            try {
+                initializeUser(userDao.getAll());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -264,28 +272,20 @@ public class MenuController {
         stage.setScene(new Scene(pane, 180, 90));
         stage.show();
 
-        item1.setOnAction(e -> {
-            menuButton.setText(item1.getText());
-        });
+        item1.setOnAction(e -> menuButton.setText(item1.getText()));
 
-        item2.setOnAction(e -> {
-            menuButton.setText(item2.getText());
-        });
+        item2.setOnAction(e -> menuButton.setText(item2.getText()));
 
-        item3.setOnAction(e -> {
-            menuButton.setText(item3.getText());
-        });
+        item3.setOnAction(e -> menuButton.setText(item3.getText()));
 
-        item4.setOnAction(e -> {
-            menuButton.setText(item4.getText());
-        });
+        item4.setOnAction(e -> menuButton.setText(item4.getText()));
 
         button.setOnAction(e -> {
             var text = menuButton.getText();
             switch (text) {
                 case "事件":
-                    try (EventDaoImpl eventDao = new EventDaoImpl()) {
-                        initializeEvent(eventDao.getAllEventsByID(Integer.parseInt(textField.getText())));
+                    try {
+                        initializeEvent(eventDao.getAll(Integer.parseInt(textField.getText())));
                     } catch (Exception ex) {
                         new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
                         throw new RuntimeException(ex);
@@ -293,23 +293,17 @@ public class MenuController {
                     new Alert(Alert.AlertType.INFORMATION, "查询成功，请前往列表详情查看").showAndWait();
                     break;
                 case "火箭":
-                    try (RocketDaoImpl rocketDao = new RocketDaoImpl("rocket",
-                            "rocketID",
-                            "rocketName",
-                            "launchDate",
-                            "in_orbitTime")) {
-                        try {
-                            initializeRocket(rocketDao.getAllRocketsByID(Integer.parseInt(textField.getText())));
-                        } catch (Exception ex) {
-                            new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
-                            throw new RuntimeException(ex);
-                        }
+                    try {
+                        initializeRocket(rocketDao.getAll(Integer.parseInt(textField.getText())));
+                    } catch (Exception ex) {
+                        new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
+                        throw new RuntimeException(ex);
                     }
                     new Alert(Alert.AlertType.INFORMATION, "查询成功，请前往列表详情查看").showAndWait();
                     break;
                 case "宇航员":
-                    try (AstronautDaoImpl astronautDao = new AstronautDaoImpl()) {
-                        initializeAstronaut(astronautDao.getAllAstronautsById(Integer.parseInt(textField.getText())));
+                    try {
+                        initializeAstronaut(astronautDao.getAll(Integer.parseInt(textField.getText())));
                     } catch (Exception ex) {
                         new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
                         throw new RuntimeException(ex);
@@ -317,12 +311,8 @@ public class MenuController {
                     new Alert(Alert.AlertType.INFORMATION, "查询成功，请前往列表详情查看").showAndWait();
                     break;
                 case "用户":
-                    try (UserDaoImpl userDao = new UserDaoImpl("user",
-                            "uid",
-                            "name",
-                            "pswd_sha",
-                            "is_admin")) {
-                        initializeUser(userDao.getAllUserById(Integer.parseInt(textField.getText())));
+                    try {
+                        initializeUser(userDao.getAll(Integer.parseInt(textField.getText())));
                     } catch (Exception ex) {
                         new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
                         throw new RuntimeException(ex);
@@ -360,28 +350,20 @@ public class MenuController {
         stage.setScene(new Scene(pane, 180, 90));
         stage.show();
 
-        item1.setOnAction(e -> {
-            menuButton.setText(item1.getText());
-        });
+        item1.setOnAction(e -> menuButton.setText(item1.getText()));
 
-        item2.setOnAction(e -> {
-            menuButton.setText(item2.getText());
-        });
+        item2.setOnAction(e -> menuButton.setText(item2.getText()));
 
-        item3.setOnAction(e -> {
-            menuButton.setText(item3.getText());
-        });
+        item3.setOnAction(e -> menuButton.setText(item3.getText()));
 
-        item4.setOnAction(e -> {
-            menuButton.setText(item4.getText());
-        });
+        item4.setOnAction(e -> menuButton.setText(item4.getText()));
 
         button.setOnAction(e -> {
             var text = menuButton.getText();
             switch (text) {
                 case "事件":
                     try (EventDaoImpl eventDao = new EventDaoImpl()) {
-                        initializeEvent(eventDao.getAllEventsByName(textField.getText()));
+                        initializeEvent(eventDao.getAll(textField.getText()));
                     } catch (Exception ex) {
                         new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
                         throw new RuntimeException(ex);
@@ -396,7 +378,7 @@ public class MenuController {
                             "launchDate",
                             "in_orbitTime")) {
                         try {
-                            initializeRocket(rocketDao.getAllRocketsByName(textField.getText()));
+                            initializeRocket(rocketDao.getAll(textField.getText()));
                         } catch (Exception ex) {
                             new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
                             throw new RuntimeException(ex);
@@ -407,7 +389,7 @@ public class MenuController {
                     break;
                 case "宇航员":
                     try (AstronautDaoImpl astronautDao = new AstronautDaoImpl()) {
-                        initializeAstronaut(astronautDao.getAllAstronautsByName(textField.getText()));
+                        initializeAstronaut(astronautDao.getAll(textField.getText()));
                     } catch (Exception ex) {
                         new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
                         throw new RuntimeException(ex);
@@ -420,7 +402,7 @@ public class MenuController {
                             "name",
                             "pswd_sha",
                             "is_admin")) {
-                        initializeUser(userDao.getAllUserByName(textField.getText()));
+                        initializeUser(userDao.getAll(textField.getText()));
                     } catch (Exception ex) {
                         new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
                         throw new RuntimeException(ex);
@@ -436,7 +418,7 @@ public class MenuController {
     }
 
     public void addData() {
-        Tab tab = tabPane.getSelectionModel().getSelectedItem();
+//        Tab tab = tabPane.getSelectionModel().getSelectedItem();
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefHeight(385.0);
         anchorPane.setPrefWidth(337.0);
@@ -588,7 +570,7 @@ public class MenuController {
             switch (text) {
                 case "事件":
                     try (EventDaoImpl eventDao = new EventDaoImpl()) {
-                        if (eventDao.addEvent(new Event(textField1.getText(), textField2.getText(), textField3.getText(), textField4.getText(), textField5.getText()))) {
+                        if (eventDao.add(new Event(textField1.getText(), textField2.getText(), textField3.getText(), textField4.getText(), textField5.getText()))) {
                             new Alert(Alert.AlertType.INFORMATION, "添加成功").showAndWait();
                             initData();
                             stage.close();
@@ -601,13 +583,9 @@ public class MenuController {
                     }
                     break;
                 case "火箭":
-                    try (RocketDaoImpl rocketDao = new RocketDaoImpl("rocket",
-                            "rocketID",
-                            "rocketName",
-                            "launchDate",
-                            "in_orbitTime")) {
+                    try {
                         Rocket rocket = new Rocket(textField1.getText(), textField2.getText(), Integer.parseInt(textField3.getText()));
-                        if (rocketDao.addRocket(rocket)) {
+                        if (rocketDao.add(rocket)) {
                             new Alert(Alert.AlertType.INFORMATION, "添加成功").showAndWait();
                             initData();
                             stage.close();
@@ -619,8 +597,8 @@ public class MenuController {
                     }
                     break;
                 case "宇航员":
-                    try (AstronautDaoImpl astronautDao = new AstronautDaoImpl()) {
-                        if (astronautDao.addAstronaut(new Astronaut(textField1.getText(), Integer.parseInt(textField2.getText()), textField3.getText()))) {
+                    try {
+                        if (astronautDao.add(new Astronaut(textField1.getText(), Integer.parseInt(textField2.getText()), textField3.getText()))) {
                             new Alert(Alert.AlertType.INFORMATION, "添加成功").showAndWait();
                             initData();
                             stage.close();
@@ -633,12 +611,8 @@ public class MenuController {
                     }
                     break;
                 case "用户":
-                    try (UserDaoImpl userDao = new UserDaoImpl("user",
-                            "uid",
-                            "name",
-                            "pswd_sha",
-                            "is_admin")) {
-                        if (userDao.addUser(new User(textField1.getText(), textField2.getText(), Integer.parseInt(textField3.getText()) == 1))) {
+                    try {
+                        if (userDao.add(new User(textField1.getText(), textField2.getText(), Integer.parseInt(textField3.getText()) == 1))) {
                             new Alert(Alert.AlertType.INFORMATION, "添加成功").showAndWait();
                             initData();
                             stage.close();
@@ -666,8 +640,8 @@ public class MenuController {
                     if (new Alert(Alert.AlertType.CONFIRMATION, "确定要删除该条记录吗？").showAndWait().get() != ButtonType.OK) {
                         return;
                     }
-                    try (EventDaoImpl eventDao = new EventDaoImpl()) {
-                        if (eventDao.deleteEvent(event.getId())) {
+                    try {
+                        if (eventDao.delete(event.getId())) {
                             new Alert(Alert.AlertType.INFORMATION, "删除成功").showAndWait();
                             initData();
                         } else {
@@ -690,7 +664,7 @@ public class MenuController {
                             "rocketName",
                             "launchDate",
                             "in_orbitTime")) {
-                        if (rocketDao.deleteRocket(rocket.getRocketID())) {
+                        if (rocketDao.delete(rocket.getRocketID())) {
                             new Alert(Alert.AlertType.INFORMATION, "删除成功").showAndWait();
                             initData();
                         } else {
@@ -709,7 +683,7 @@ public class MenuController {
                         return;
                     }
                     try (AstronautDaoImpl astronautDao = new AstronautDaoImpl()) {
-                        if (astronautDao.deleteAstronaut(astronaut.getId())) {
+                        if (astronautDao.delete(astronaut.getId())) {
                             new Alert(Alert.AlertType.INFORMATION, "删除成功").showAndWait();
                             initData();
                         } else {
@@ -732,7 +706,7 @@ public class MenuController {
                             "name",
                             "pswd_sha",
                             "is_admin")) {
-                        if (userDao.deleteUser(user.getId())) {
+                        if (userDao.delete(user.getId())) {
                             new Alert(Alert.AlertType.INFORMATION, "删除成功").showAndWait();
                             initData();
                         } else {
@@ -910,8 +884,8 @@ public class MenuController {
         button.setOnAction(e -> {
             switch (tab.getText()) {
                 case "事件表":
-                    try (EventDaoImpl eventDao = new EventDaoImpl()) {
-                        if (eventDao.updateEvent(new Event(textField1.getText(), textField2.getText(), textField3.getText(), textField4.getText(), textField5.getText()))) {
+                    try {
+                        if (eventDao.update(new Event(textField1.getText(), textField2.getText(), textField3.getText(), textField4.getText(), textField5.getText()))) {
                             new Alert(Alert.AlertType.INFORMATION, "修改成功").showAndWait();
                             initData();
                             stage.close();
@@ -925,12 +899,8 @@ public class MenuController {
                     break;
                 case "火箭表":
                     int rocketID = rocketTable.getSelectionModel().getSelectedItem().getRocketID();
-                    try (RocketDaoImpl rocketDao = new RocketDaoImpl("rocket",
-                            "rocketID",
-                            "rocketName",
-                            "launchDate",
-                            "in_orbitTime")) {
-                        if (rocketDao.updateRocket(new Rocket(rocketID, textField1.getText(), textField2.getText(), Integer.parseInt(textField3.getText())))) {
+                    try {
+                        if (rocketDao.update(new Rocket(rocketID, textField1.getText(), textField2.getText(), Integer.parseInt(textField3.getText())))) {
                             new Alert(Alert.AlertType.INFORMATION, "修改成功").showAndWait();
                             initData();
                             stage.close();
@@ -943,8 +913,8 @@ public class MenuController {
                     break;
                 case "宇航员表":
                     int id = astronautTable.getSelectionModel().getSelectedItem().getId();
-                    try (AstronautDaoImpl astronautDao = new AstronautDaoImpl()) {
-                        if (astronautDao.updateAstronaut(new Astronaut(id, textField1.getText(), Integer.parseInt(textField2.getText()), textField3.getText()))) {
+                    try {
+                        if (astronautDao.update(new Astronaut(id, textField1.getText(), Integer.parseInt(textField2.getText()), textField3.getText()))) {
                             new Alert(Alert.AlertType.INFORMATION, "修改成功").showAndWait();
                             initData();
                             stage.close();
@@ -957,12 +927,8 @@ public class MenuController {
                     }
                     break;
                 case "用户表":
-                    try (UserDaoImpl userDao = new UserDaoImpl("user",
-                            "uid",
-                            "name",
-                            "pswd_sha",
-                            "is_admin")) {
-                        if (userDao.updateUser(new User(textField1.getText(), textField2.getText(), Integer.parseInt(textField3.getText()) == 1))) {
+                    try {
+                        if (userDao.update(new User(textField1.getText(), textField2.getText(), Integer.parseInt(textField3.getText()) == 1))) {
                             new Alert(Alert.AlertType.INFORMATION, "修改成功").showAndWait();
                             initData();
                             stage.close();

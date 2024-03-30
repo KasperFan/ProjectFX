@@ -1,7 +1,8 @@
 package com.system.DAO.Impl;
 
-import com.system.DAO.UserDao;
+import com.system.DAO.dao.UserDao;
 import com.system.DAO.entity.User;
+import com.system.utils.DBUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,7 +10,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserDaoImpl extends BasicDaoImpl<User> implements UserDao {
+public class UserDaoImpl extends DBUtil implements UserDao {
     private String addSQL = "INSERT INTO `%s` (%s) VALUES (%s)";
     private String updateSQL = "UPDATE `%s` SET %s WHERE %s";
     private String deleteSQL = "DELETE FROM `%s` WHERE %s";
@@ -47,25 +48,33 @@ public class UserDaoImpl extends BasicDaoImpl<User> implements UserDao {
 
 
     @Override
-    public boolean addUser(@NotNull User user) throws Exception {
-        return super.add(addSQL, user.getName(), user.getPassword(), user.isAdmin() ? 1 : 0);
+    public boolean add(@NotNull User user) throws Exception {
+        return super.executeUpdate(addSQL, user.getName(), user.getPassword(), user.isAdmin() ? 1 : 0) > 0;
     }
 
     @Override
-    public boolean updateUser(@NotNull User user) throws Exception {
-        return super.add(updateSQL, user.getName(), user.getPassword(), user.getId());
+    public boolean update(@NotNull User user) throws Exception {
+        return super.executeUpdate(updateSQL, user.getName(), user.getPassword(), user.getId()) > 0;
     }
 
     @Override
-    public boolean deleteUser(int id) throws Exception {
-        return super.delete(String.format(deleteSQL, userIdHead), id);
+    public boolean delete(int id) throws Exception {
+        return super.executeUpdate(String.format(deleteSQL, userIdHead), id) > 0;
     }
-
 
     @Nullable
     @Override
+    public User get(int id) throws Exception {
+        ResultSet rst = super.executeQuery(String.format(getSQL, String.format(sentence, "`uid` = ?")), id);
+        if (rst.next()) {
+            return new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1);
+        }
+        return null;
+    }
+
+    @Nullable
     public User getUserByName(String name) throws Exception {
-        ResultSet rst = super.get(String.format(getSQL, sentence), name);
+        ResultSet rst = super.executeQuery(String.format(getSQL, sentence), name);
         if (rst.next()) {
             return new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1);
         }
@@ -73,27 +82,27 @@ public class UserDaoImpl extends BasicDaoImpl<User> implements UserDao {
     }
 
     @Override
-    public List<User> getAllUser() throws Exception {
+    public List<User> getAll() throws Exception {
         List<User> list = new LinkedList<>();
-        ResultSet rst = super.get(String.format(getSQL, "LIMIT 0,?"), 1000);
+        ResultSet rst = super.executeQuery(String.format(getSQL, "LIMIT 0,?"), 1000);
         while (rst.next()) {
             list.add(new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1));
         }
         return list;
     }
 
-    public List<User> getAllUserById(int id) throws Exception {
+    public List<User> getAll(int id) throws Exception {
         List<User> list = new LinkedList<>();
-        ResultSet rst = super.get(String.format(getSQL, String.format(sentence, "`uid` = ?")), id);
+        ResultSet rst = super.executeQuery(String.format(getSQL, String.format(sentence, "`uid` = ?")), id);
         while (rst.next()) {
             list.add(new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1));
         }
         return list;
     }
 
-    public List<User> getAllUserByName(String name) throws Exception {
+    public List<User> getAll(String name) throws Exception {
         List<User> list = new LinkedList<>();
-        ResultSet rst = super.get(String.format(getSQL, String.format(sentence, "`userName` LIKE ?")), String.format("%%%s%%", name));
+        ResultSet rst = super.executeQuery(String.format(getSQL, String.format(sentence, "`userName` LIKE ?")), String.format("%%%s%%", name));
         while (rst.next()) {
             list.add(new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1));
         }
