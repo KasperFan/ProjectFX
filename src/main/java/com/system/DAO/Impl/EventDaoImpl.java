@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class EventDaoImpl extends DBUtil implements EventDao {
@@ -115,7 +114,7 @@ public class EventDaoImpl extends DBUtil implements EventDao {
 
     @Override
     public List<Event> getAll() throws Exception {
-        LinkedList<Event> events = new LinkedList<>();
+        List<Event> events = new ArrayList<>();
         ResultSet resultSet = super.executeQuery(String.format(getSQL, ""));
         while (resultSet.next()) {
             events.add(initEvent(resultSet));
@@ -154,7 +153,7 @@ public class EventDaoImpl extends DBUtil implements EventDao {
     }
 
     public List<Event> getAll(int id) throws Exception {
-        LinkedList<Event> events = new LinkedList<>();
+        List<Event> events = new ArrayList<>();
         ResultSet resultSet = super.executeQuery(String.format(getSQL, "WHERE `eid` = ?"), id);
         while (resultSet.next()) {
             events.add(initEvent(resultSet));
@@ -163,7 +162,7 @@ public class EventDaoImpl extends DBUtil implements EventDao {
     }
 
     public List<Event> getAll(String name) throws Exception {
-        LinkedList<Event> events = new LinkedList<>();
+        List<Event> events = new ArrayList<>();
         ResultSet resultSet = super.executeQuery(String.format(getSQL, "WHERE `title` LIKE ?"), String.format("%%%s%%", name));
         while (resultSet.next()) {
             events.add(initEvent(resultSet));

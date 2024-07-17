@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -77,7 +77,7 @@ public class RocketDaoImpl extends DBUtil implements RocketDao {
 
     @Override
     public List<Rocket> getAll() throws Exception {
-        LinkedList<Rocket> rockets = new LinkedList<>();
+        List<Rocket> rockets = new ArrayList<>();
         ResultSet rst = super.executeQuery(String.format(getSQL, ""));
         while (rst.next()) {
             rockets.add(initRocket(rst));
@@ -103,7 +103,7 @@ public class RocketDaoImpl extends DBUtil implements RocketDao {
 
     @Override
     public List<Rocket> getAll(int id) throws Exception {
-        LinkedList<Rocket> rockets = new LinkedList<>();
+        List<Rocket> rockets = new ArrayList<>();
         ResultSet rst = super.executeQuery(String.format(getSQL, "WHERE `rocketID` = ?"), id);
         while (rst.next()) {
             rockets.add(initRocket(rst));
@@ -113,7 +113,7 @@ public class RocketDaoImpl extends DBUtil implements RocketDao {
 
     @Override
     public List<Rocket> getAll(String name) throws Exception{
-        LinkedList<Rocket> rockets = new LinkedList<>();
+        List<Rocket> rockets = new ArrayList<>();
         ResultSet rst = super.executeQuery(String.format(getSQL, "WHERE `rocketName` LIKE ?"), String.format("%%%s%%", name));
         while (rst.next()) {
             rockets.add(initRocket(rst));

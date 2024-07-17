@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl extends DBUtil implements UserDao {
@@ -83,7 +83,7 @@ public class UserDaoImpl extends DBUtil implements UserDao {
 
     @Override
     public List<User> getAll() throws Exception {
-        List<User> list = new LinkedList<>();
+        List<User> list = new ArrayList<>();
         ResultSet rst = super.executeQuery(String.format(getSQL, "LIMIT 0,?"), 1000);
         while (rst.next()) {
             list.add(new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1));
@@ -92,7 +92,7 @@ public class UserDaoImpl extends DBUtil implements UserDao {
     }
 
     public List<User> getAll(int id) throws Exception {
-        List<User> list = new LinkedList<>();
+        List<User> list = new ArrayList<>();
         ResultSet rst = super.executeQuery(String.format(getSQL, String.format(sentence, "`uid` = ?")), id);
         while (rst.next()) {
             list.add(new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1));
@@ -101,7 +101,7 @@ public class UserDaoImpl extends DBUtil implements UserDao {
     }
 
     public List<User> getAll(String name) throws Exception {
-        List<User> list = new LinkedList<>();
+        List<User> list = new ArrayList<>();
         ResultSet rst = super.executeQuery(String.format(getSQL, String.format(sentence, "`userName` LIKE ?")), String.format("%%%s%%", name));
         while (rst.next()) {
             list.add(new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1));

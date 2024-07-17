@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AstronautDaoImpl extends DBUtil implements AstronautDao {
@@ -44,7 +44,7 @@ public class AstronautDaoImpl extends DBUtil implements AstronautDao {
 
     @Override
     public List<Astronaut> getAll() throws Exception {
-        List<Astronaut> astronauts = new LinkedList<>();
+        List<Astronaut> astronauts = new ArrayList<>();
         ResultSet resultSet = super.executeQuery(String.format(selectSQL, "LIMIT 0,?"), 1000);
         while (resultSet.next()) {
             astronauts.add(new Astronaut(resultSet.getInt("aid"), resultSet.getString("name"), resultSet.getInt("age"), resultSet.getString("sex")));
@@ -54,7 +54,7 @@ public class AstronautDaoImpl extends DBUtil implements AstronautDao {
 
     @Override
     public List<Astronaut> getAll(int id) throws Exception {
-        LinkedList<Astronaut> astronauts = new LinkedList<>();
+        List<Astronaut> astronauts = new ArrayList<>();
         ResultSet resultSet = super.executeQuery(String.format(selectSQL, "WHERE `aid` = ?"), id);
         while (resultSet.next()) {
             astronauts.add(new Astronaut(resultSet.getInt("aid"), resultSet.getString("name"), resultSet.getInt("age"), resultSet.getString("sex")));
@@ -64,7 +64,7 @@ public class AstronautDaoImpl extends DBUtil implements AstronautDao {
 
     @Override
     public List<Astronaut> getAll(String name) throws Exception {
-        LinkedList<Astronaut> astronauts = new LinkedList<>();
+        List<Astronaut> astronauts = new ArrayList<>();
         ResultSet resultSet = super.executeQuery(String.format(selectSQL, "WHERE `aid` LIKE ?"), String.format("%%%s%%", name));
         while (resultSet.next()) {
             astronauts.add(new Astronaut(resultSet.getInt("aid"), resultSet.getString("name"), resultSet.getInt("age"), resultSet.getString("sex")));
