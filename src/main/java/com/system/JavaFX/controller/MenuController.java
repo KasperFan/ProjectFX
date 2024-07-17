@@ -1,8 +1,8 @@
 package com.system.JavaFX.controller;
 
-import com.system.DAO.dao.AstronautDao;
-import com.system.DAO.dao.EventDao;
-import com.system.DAO.dao.UserDao;
+import com.system.DAO.AstronautDao;
+import com.system.DAO.EventDao;
+import com.system.DAO.UserDao;
 import com.system.DAO.entity.Astronaut;
 import com.system.DAO.entity.Rocket;
 import com.system.DAO.entity.User;
