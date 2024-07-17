@@ -57,7 +57,7 @@ public class HelloController {
                     isRoot = nameInput.getText().equals("root");
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "登录成功");
                     Optional<ButtonType> buttonType = alert.showAndWait();
-                    if (buttonType.get() == ButtonType.OK) {
+                    if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
                         rootHelloPane.getScene().getWindow().hide();
                     }
                 } else {
@@ -88,9 +88,9 @@ public class HelloController {
                     alert.setTitle("确认框");
                     alert.setHeaderText("你要注册管理员用户吗？");
                     Optional<ButtonType> buttonType = alert.showAndWait();
-                    if (buttonType.get() == ButtonType.OK) {
+                    if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
                         if (adminToken.getText().equals("Admin")) {
-                            var result = userDao.addUser(new User(nameInput.getText(), passwordInout.getText(), true));
+                            var result = userDao.add(new User(nameInput.getText(), passwordInout.getText(), true));
                             if (!result) {
                                 new Alert(Alert.AlertType.ERROR, "注册失败，已存在该用户").showAndWait();
                             } else {
@@ -105,7 +105,7 @@ public class HelloController {
                         fromSignBack();
                     }
                 } else {
-                    var result = userDao.addUser(new User(nameInput.getText(), passwordInout.getText(), false));
+                    var result = userDao.add(new User(nameInput.getText(), passwordInout.getText(), false));
                     if (result) {
                         signSucceed();
                     }

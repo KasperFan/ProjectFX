@@ -1,24 +1,26 @@
 package com.system.DAO.Impl;
 
-import com.system.DAO.EventDao;
+import com.system.DAO.dao.EventDao;
 import com.system.DAO.entity.Event;
+import com.system.utils.DBUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
+public class EventDaoImpl extends DBUtil implements EventDao {
     private final String getSQL = "SELECT * FROM `event` %s";
 
     @Override
-    public boolean addEvent(@NotNull Event event) throws Exception {
+    public boolean add(@NotNull Event event) throws Exception {
         try {
             String addSQL = "INSERT INTO `event` (`title`, `time`, `mean`) VALUES (?, ?, ?)";
-            boolean result = add(addSQL, event.getTitle(), event.getTime(), event.getMean());
-            try (ResultSet resultSet = get("SELECT `eid` FROM `event` WHERE `title` = ?", event.getTitle())) {
+            boolean result = super.executeUpdate(addSQL, event.getTitle(), event.getTime(), event.getMean()) > 0;
+            try (ResultSet resultSet = super.executeQuery("SELECT `eid` FROM `event` WHERE `title` = ?", event.getTitle())) {
                 resultSet.next();
                 event.setId(resultSet.getInt("eid"));
             }
@@ -31,18 +33,18 @@ public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
     }
 
     @Override
-    public boolean updateEvent(@NotNull Event event) throws Exception {
-        ResultSet resultSet = super.get("SELECT `eid` FROM `event` WHERE `title` = ?", event.getTitle());
+    public boolean update(@NotNull Event event) throws Exception {
+        ResultSet resultSet = super.executeQuery("SELECT `eid` FROM `event` WHERE `title` = ?", event.getTitle());
         resultSet.next();
         event.setId(resultSet.getInt("eid"));
         String updateSQL = "UPDATE `event` SET `title` = ?, `time` = ?, `mean` = ? WHERE `eid` = ?";
-        boolean result = update(updateSQL, event.getTitle(), event.getTime(), event.getMean(), event.getId());
+        boolean result = super.executeUpdate(updateSQL, event.getTitle(), event.getTime(), event.getMean(), event.getId()) > 0;
         if (result) {
             // 删除ev_roc表上的相关记录
-            delete("DELETE FROM `ev_roc` WHERE `eid` = ?", event.getId());
+            super.executeUpdate("DELETE FROM `ev_roc` WHERE `eid` = ?", event.getId());
             updateRocket_alias(event);
             // 删除ev_ast表上的相关记录
-            delete("DELETE FROM `ev_ast` WHERE `eid` = ?", event.getId());
+            super.executeUpdate("DELETE FROM `ev_ast` WHERE `eid` = ?", event.getId());
             updateAstronaut_alias(event);
         }
         return result;
@@ -52,12 +54,12 @@ public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
         for (var i :
                 event.getAstronauts().split(" ")) {
             try {
-                add("INSERT INTO `astronaut` (`name`) VALUES (?)", i);
+                super.executeUpdate("INSERT INTO `astronaut` (`name`) VALUES (?)", i);
             } catch (SQLException ignored) {
             } finally {
-                var resultSet = get("SELECT `aid` FROM `astronaut` WHERE `name` = ?", i);
+                var resultSet = super.executeQuery("SELECT `aid` FROM `astronaut` WHERE `name` = ?", i);
                 if (resultSet.next()) {
-                    add("INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (?, ?)", event.getId(), resultSet.getInt("aid"));
+                    super.executeUpdate("INSERT INTO `ev_ast` (`eid`, `aid`) VALUES (?, ?)", event.getId(), resultSet.getInt("aid"));
                 }
             }
         }
@@ -67,23 +69,23 @@ public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
         for (var i :
                 event.getRocketName().split(" ")) {
             try {
-                add("INSERT INTO `rocket` (`rocketName`) VALUES (?)", i);
+                super.executeUpdate("INSERT INTO `rocket` (`rocketName`) VALUES (?)", i);
             } catch (SQLException ignored) {
             } finally {
-                var resultSet = get("SELECT `rocketID` FROM `rocket` WHERE `rocketName` = ?", i);
+                var resultSet = super.executeQuery("SELECT `rocketID` FROM `rocket` WHERE `rocketName` = ?", i);
                 if (resultSet.next()) {
-                    add("INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (?, ?)", event.getId(), resultSet.getInt("rocketID"));
+                    super.executeUpdate("INSERT INTO `ev_roc` (`eid`, `rid`) VALUES (?, ?)", event.getId(), resultSet.getInt("rocketID"));
                 }
             }
         }
     }
 
     @Override
-    public boolean deleteEvent(int id) throws Exception {
+    public boolean delete(int id) throws Exception {
         String deleteSQL = "DELETE FROM `event` WHERE `eid` = ?";
-        if (delete(deleteSQL, id)) {
-            delete("DELETE FROM `ev_roc` WHERE `eid` = ?", id);
-            delete("DELETE FROM `ev_ast` WHERE `eid` = ?", id);
+        if (super.executeUpdate(deleteSQL, id) > 0) {
+            super.executeUpdate("DELETE FROM `ev_roc` WHERE `eid` = ?", id);
+            super.executeUpdate("DELETE FROM `ev_ast` WHERE `eid` = ?", id);
             return true;
         }
         return false;
@@ -91,9 +93,20 @@ public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
 
     @Nullable
     @Override
-    public Event getEventByName(String name) throws Exception {
+    public Event get(int id) throws Exception {
+        String sentence = "WHERE `eid` = ?";
+        ResultSet resultSet = super.executeQuery(String.format(getSQL, sentence), id);
+        if (resultSet.next()) {
+            return initEvent(resultSet);
+        }
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Event get(String name) throws Exception {
         String sentence = "WHERE `title` = ?";
-        ResultSet resultSet = get(String.format(getSQL, sentence), name);
+        ResultSet resultSet = super.executeQuery(String.format(getSQL, sentence), name);
         if (resultSet.next()) {
             return initEvent(resultSet);
         }
@@ -101,9 +114,9 @@ public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
     }
 
     @Override
-    public List<Event> getAllEvents() throws Exception {
-        List<Event> events = new ArrayList<>();
-        ResultSet resultSet = get(String.format(getSQL, ""));
+    public List<Event> getAll() throws Exception {
+        LinkedList<Event> events = new LinkedList<>();
+        ResultSet resultSet = super.executeQuery(String.format(getSQL, ""));
         while (resultSet.next()) {
             events.add(initEvent(resultSet));
         }
@@ -115,24 +128,24 @@ public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
         StringBuffer stringBuffer = new StringBuffer();
         ArrayList<Integer> list = new ArrayList<>();
         Event event = new Event(resultSet.getInt("eid"), resultSet.getString("title"), resultSet.getString("time"), resultSet.getString("mean"));
-        ResultSet set = get("SELECT `rid` FROM `ev_roc` WHERE `eid` = ?", event.getId());
+        ResultSet set = super.executeQuery("SELECT `rid` FROM `ev_roc` WHERE `eid` = ?", event.getId());
         while (set.next()) {
             list.add(set.getInt("rid"));
         }
         for (var i : list) {
-            set = get("SELECT `rocketName` FROM `rocket` WHERE `rocketID` = ?", i);
+            set = super.executeQuery("SELECT `rocketName` FROM `rocket` WHERE `rocketID` = ?", i);
             set.next();
             stringBuffer.append(set.getString("rocketName")).append(" ");
         }
         event.setRocketName(stringBuffer.toString().strip());
         stringBuffer.delete(0, stringBuffer.length());
         list.clear();
-        set = get("SELECT `aid` FROM `ev_ast` WHERE `eid` = ?", event.getId());
+        set = super.executeQuery("SELECT `aid` FROM `ev_ast` WHERE `eid` = ?", event.getId());
         while (set.next()) {
             list.add(set.getInt("aid"));
         }
         for (var i : list) {
-            set = get("SELECT `name` FROM `astronaut` WHERE `aid` = ?", i);
+            set = super.executeQuery("SELECT `name` FROM `astronaut` WHERE `aid` = ?", i);
             set.next();
             stringBuffer.append(set.getString("name")).append(" ");
         }
@@ -140,18 +153,18 @@ public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
         return event;
     }
 
-    public List<Event> getAllEventsByID(int id) throws Exception {
-        List<Event> events = new ArrayList<>();
-        ResultSet resultSet = get(String.format(getSQL, "WHERE `eid` = ?"), id);
+    public List<Event> getAll(int id) throws Exception {
+        LinkedList<Event> events = new LinkedList<>();
+        ResultSet resultSet = super.executeQuery(String.format(getSQL, "WHERE `eid` = ?"), id);
         while (resultSet.next()) {
             events.add(initEvent(resultSet));
         }
         return events;
     }
 
-    public List<Event> getAllEventsByName(String name) throws Exception {
-        List<Event> events = new ArrayList<>();
-        ResultSet resultSet = get(String.format(getSQL, "WHERE `title` LIKE ?"), String.format("%%%s%%", name));
+    public List<Event> getAll(String name) throws Exception {
+        LinkedList<Event> events = new LinkedList<>();
+        ResultSet resultSet = super.executeQuery(String.format(getSQL, "WHERE `title` LIKE ?"), String.format("%%%s%%", name));
         while (resultSet.next()) {
             events.add(initEvent(resultSet));
         }

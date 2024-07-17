@@ -47,7 +47,7 @@ public class ProjectApplication extends Application {
         stage1.setTitle("中国航空航天展示系统面板");
         stage1.setScene(scene2);
     }
-    public static void launch(String... args) {
+    public static void launch(String ... args) {
         Application.launch(args);
     }
 }

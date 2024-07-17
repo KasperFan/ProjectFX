@@ -6,10 +6,8 @@ module com.system {
     requires annotations;
     requires java.desktop;
     requires c3p0;
-    requires java.naming;
     requires javafx.media;
-    requires mchange.commons.java;
-
+    requires java.naming;
 
     exports com.system.DAO.entity;
     exports com.system.JavaFX.view;

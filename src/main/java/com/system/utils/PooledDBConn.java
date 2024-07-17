@@ -31,11 +31,6 @@ public class PooledDBConn {
     @Nullable
     public static Connection getConnection() throws SQLException {
         // 获得数据库连接
-        try {
-            return dataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return dataSource.getConnection();
     }
 }
