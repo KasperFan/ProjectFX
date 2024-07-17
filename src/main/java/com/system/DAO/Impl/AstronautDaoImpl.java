@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AstronautDaoImpl extends BasicDaoImpl<Astronaut> implements AstronautDao {
@@ -43,7 +43,7 @@ public class AstronautDaoImpl extends BasicDaoImpl<Astronaut> implements Astrona
 
     @Override
     public List<Astronaut> getAllAstronauts() throws Exception {
-        List<Astronaut> astronauts = new LinkedList<>();
+        List<Astronaut> astronauts = new ArrayList<>();
         ResultSet resultSet = get(String.format(selectSQL, "LIMIT 0,?"), 1000);
         while (resultSet.next()) {
             astronauts.add(new Astronaut(resultSet.getInt("aid"), resultSet.getString("name"), resultSet.getInt("age"), resultSet.getString("sex")));
@@ -52,7 +52,7 @@ public class AstronautDaoImpl extends BasicDaoImpl<Astronaut> implements Astrona
     }
 
     public List<Astronaut> getAllAstronautsById(int id) throws Exception {
-        LinkedList<Astronaut> astronauts = new LinkedList<>();
+        List<Astronaut> astronauts = new ArrayList<>();
         ResultSet resultSet = get(String.format(selectSQL, "WHERE `aid` = ?"), id);
         while (resultSet.next()) {
             astronauts.add(new Astronaut(resultSet.getInt("aid"), resultSet.getString("name"), resultSet.getInt("age"), resultSet.getString("sex")));
@@ -61,7 +61,7 @@ public class AstronautDaoImpl extends BasicDaoImpl<Astronaut> implements Astrona
     }
 
     public List<Astronaut> getAllAstronautsByName(String name) throws Exception {
-        LinkedList<Astronaut> astronauts = new LinkedList<>();
+        List<Astronaut> astronauts = new ArrayList<>();
         ResultSet resultSet = get(String.format(selectSQL, "WHERE `aid` LIKE ?"), String.format("%%%s%%", name));
         while (resultSet.next()) {
             astronauts.add(new Astronaut(resultSet.getInt("aid"), resultSet.getString("name"), resultSet.getInt("age"), resultSet.getString("sex")));

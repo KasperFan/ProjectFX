@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
@@ -103,7 +102,7 @@ public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
 
     @Override
     public List<Event> getAllEvents() throws Exception {
-        LinkedList<Event> events = new LinkedList<>();
+        List<Event> events = new ArrayList<>();
         ResultSet resultSet = get(String.format(getSQL, ""));
         while (resultSet.next()) {
             events.add(initEvent(resultSet));
@@ -142,7 +141,7 @@ public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
     }
 
     public List<Event> getAllEventsByID(int id) throws Exception {
-        LinkedList<Event> events = new LinkedList<>();
+        List<Event> events = new ArrayList<>();
         ResultSet resultSet = get(String.format(getSQL, "WHERE `eid` = ?"), id);
         while (resultSet.next()) {
             events.add(initEvent(resultSet));
@@ -151,7 +150,7 @@ public class EventDaoImpl extends BasicDaoImpl<Event> implements EventDao {
     }
 
     public List<Event> getAllEventsByName(String name) throws Exception {
-        LinkedList<Event> events = new LinkedList<>();
+        List<Event> events = new ArrayList<>();
         ResultSet resultSet = get(String.format(getSQL, "WHERE `title` LIKE ?"), String.format("%%%s%%", name));
         while (resultSet.next()) {
             events.add(initEvent(resultSet));
