@@ -73,7 +73,7 @@ public class UserDaoImpl extends DBUtil implements UserDao {
     }
 
     @Nullable
-    public User getUserByName(String name) throws Exception {
+    public User get(String name) throws Exception {
         ResultSet rst = super.executeQuery(String.format(getSQL, sentence), name);
         if (rst.next()) {
             return new User(rst.getInt(userIdHead), rst.getString(userNameHead), rst.getString(userPasswordHead), rst.getInt(userAdminHead) == 1);
@@ -91,6 +91,7 @@ public class UserDaoImpl extends DBUtil implements UserDao {
         return list;
     }
 
+    @Override
     public List<User> getAll(int id) throws Exception {
         List<User> list = new ArrayList<>();
         ResultSet rst = super.executeQuery(String.format(getSQL, String.format(sentence, "`uid` = ?")), id);
@@ -100,6 +101,7 @@ public class UserDaoImpl extends DBUtil implements UserDao {
         return list;
     }
 
+    @Override
     public List<User> getAll(String name) throws Exception {
         List<User> list = new ArrayList<>();
         ResultSet rst = super.executeQuery(String.format(getSQL, String.format(sentence, "`userName` LIKE ?")), String.format("%%%s%%", name));

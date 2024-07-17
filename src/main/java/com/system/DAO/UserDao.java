@@ -17,6 +17,8 @@ public interface UserDao extends BasicDAO<User> {
     @Override
     User get(int id) throws Exception;
 
+    User get(String name) throws Exception;
+
     @Override
     List<User> getAll() throws Exception;
 
