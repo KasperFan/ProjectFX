@@ -16,20 +16,21 @@
 
     <dependencies>
         <!-- JavaFX组件依赖，使用21.0.1版本避免JavaFX SDK与macOS Sonoma的兼容性问题 -->
+        <!-- 使用21.0.2版本规避安全性问题 -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21.0.1</version>
+            <version>21.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21.0.1</version>
+            <version>21.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>21.0.1</version>
+            <version>21.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -39,7 +40,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
-            <version>21.0.1</version>
+            <version>21.0.2</version>
         </dependency>
 
         <dependency>
@@ -86,36 +87,30 @@
                     <target>17</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>com.system.JavaFX.view.ProjectApplication</mainClass> <!-- 你的主类路径 -->
-                            <options>
-                                <option>--add-modules</option>
-                                <option>javafx.controls,javafx.fxml</option> <!-- 确保加载需要的JavaFX模块 -->
-                            </options>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!-- 使用maven-assembly-plugin插件将依赖一并打包（胖瘦包） -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version> <!-- 可以根据需要选择合适的版本 -->
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                     <archive>
-                        <manifestEntries>
-                            <Main-Class>com.system.JavaFX.view.ProjectApplication</Main-Class> <!-- 替换为你的主类路径 -->
-                        </manifestEntries>
+                        <manifest>
+                            <mainClass>com.system.Main</mainClass>
+                        </manifest>
                     </archive>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
