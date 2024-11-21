@@ -7,7 +7,7 @@ module com.system {
     requires java.desktop;
     requires c3p0;
     requires javafx.media;
-
+    requires java.naming;
 
     exports com.system.DAO.entity;
     exports com.system.JavaFX.view;

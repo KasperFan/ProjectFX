@@ -50,7 +50,7 @@ public class HelloController {
             passwordInout.setVisible(true);
         } else {
             try (UserDaoImpl userDao = new UserDaoImpl("user", "uid", "name", "pswd_sha", "is_admin")) {
-                var loginUser = userDao.getUserByName(nameInput.getText());
+                var loginUser = userDao.get(nameInput.getText());
                 if (loginUser != null && loginUser.getPassword().equals(SHA256.getSHA256(passwordInout.getText()))) {
                     isAdmin = loginUser.isAdmin();
                     isLogin = true;
