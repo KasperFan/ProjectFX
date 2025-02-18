@@ -1,0 +1,4 @@
+dbConfig:
+  JDBCurl : jdbc:mysql://localhost:3306/Java_CADS?&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  userName : root
+  passWord : ## Put your database access password here ##

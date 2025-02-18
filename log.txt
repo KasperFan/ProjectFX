@@ -1,0 +1,4 @@
+11月 22, 2024 9:14:43 下午 com.sun.javafx.application.PlatformImpl startup
+警告: Unsupported JavaFX configuration: classes were loaded from 'unnamed module @673bfdf3'
+2024-11-22 21:14:44.259 java[1768:3568579] +[IMKClient subclass]: chose IMKClient_Legacy
+2024-11-22 21:14:44.259 java[1768:3568579] +[IMKInputSession subclass]: chose IMKInputSession_Legacy

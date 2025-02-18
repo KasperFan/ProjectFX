@@ -30,8 +30,7 @@ Java课程设计
 ![后端业务结构](src/main/resources/image/backend.png)
 
 ### 后端类关系：
-
-![本地路径](src/main/resources/image/UML.png)
+<img src="src/main/resources/image/UML.png" alt="后端类与接口关系" width="736" height="632">
 
 
 加密实现：
@@ -59,11 +58,13 @@ public class SHA256 {
 ```
 
 数据库连接池实现类：
+
 ```java
 public class PooledDBConn {
     private static final ComboPooledDataSource dataSource = new ComboPooledDataSource();
+
     static {
-        try (Scanner sc = new Scanner(Objects.requireNonNull(PooledDBConn.class.getClassLoader().getResourceAsStream("config.yml")))) {
+        try (Scanner sc = new Scanner(Objects.requireNonNull(PooledDBConn.class.getClassLoader().getResourceAsStream("config.yaml")))) {
             // 注册驱动
             dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
             // 设置连接参数
@@ -78,6 +79,7 @@ public class PooledDBConn {
             e.printStackTrace(System.err);
         }
     }
+
     @Nullable
     public static Connection getConnection() throws SQLException {
         // 获得数据库连接

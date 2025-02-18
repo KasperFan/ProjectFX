@@ -8,6 +8,7 @@ module com.system {
     requires c3p0;
     requires javafx.media;
     requires java.naming;
+    requires org.yaml.snakeyaml;
 
     exports com.system.DAO.entity;
     exports com.system.JavaFX.view;

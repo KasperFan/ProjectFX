@@ -5,7 +5,7 @@ target/
 
 src/main/resources/image/background.jpg
 src/main/resources/media/*
-src/main/resources/config.yml
+src/main/resources/config.yaml
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
