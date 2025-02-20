@@ -19,43 +19,45 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="680.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.JavaFX.controller.MenuController">
+<AnchorPane fx:id="rootPane" prefHeight="680.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.system.JavaFX.controller.MenuController">
     <ImageView fitHeight="680.0" fitWidth="1000.0">
-        <Image url="@../../../../image/background.jpg"/>
+        <Image url="@../../../../image/background.jpg" />
     </ImageView>
     <Pane layoutX="68.0" layoutY="40.0" prefHeight="495.0" prefWidth="880.0">
         <Pane fx:id="table" prefHeight="495.0" prefWidth="880.0" visible="false">
             <MenuBar prefHeight="28.0" prefWidth="880.0">
                 <Menu mnemonicParsing="false" text="开始">
-                    <MenuItem mnemonicParsing="false" onAction="#refreshData" text="刷新数据"/>
+                    <MenuItem mnemonicParsing="false" onAction="#refreshData" text="刷新数据" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="查找">
-                    <MenuItem mnemonicParsing="false" onAction="#searchByID" text="按ID查找"/>
-                    <MenuItem mnemonicParsing="false" onAction="#searchByName" text="按名查找"/>
+                    <MenuItem mnemonicParsing="false" onAction="#searchByID" text="按ID查找" />
+                    <MenuItem mnemonicParsing="false" onAction="#searchByName" text="按名查找" />
                 </Menu>
+            <Menu mnemonicParsing="false" text="查看">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showPhoto" text="查看照片" />
+               </items>
+            </Menu>
                 <Menu fx:id="adminButton" mnemonicParsing="false" text="数据" visible="false">
-                    <MenuItem mnemonicParsing="false" onAction="#addData" text="增加"/>
-                    <MenuItem mnemonicParsing="false" onAction="#delData" text="删除"/>
-                    <MenuItem mnemonicParsing="false" onAction="#corData" text="修改"/>
+                    <MenuItem mnemonicParsing="false" onAction="#addData" text="增加" />
+                    <MenuItem mnemonicParsing="false" onAction="#delData" text="删除" />
+                    <MenuItem mnemonicParsing="false" onAction="#corData" text="修改" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="退出">
-                    <MenuItem mnemonicParsing="false" onAction="#logOut" text="退出登录"/>
+                    <MenuItem mnemonicParsing="false" onAction="#logOut" text="退出登录" />
                 </Menu>
             </MenuBar>
-            <TabPane fx:id="tabPane" layoutY="27.5" maxHeight="467.5" prefWidth="880.0"
-                     tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" layoutY="27.5" maxHeight="467.5" prefWidth="880.0" tabClosingPolicy="UNAVAILABLE">
                 <Tab text="事件表">
-                    <AnchorPane layoutY="27.5" minHeight="0.0" minWidth="0.0" prefHeight="467.5"
-                                prefWidth="880.0">
+                    <AnchorPane layoutY="27.5" minHeight="0.0" minWidth="0.0" prefHeight="467.5" prefWidth="880.0">
                         <TableView fx:id="eventTable" prefHeight="436.0" prefWidth="880.0">
                             <columns>
-                                <TableColumn fx:id="eID" prefWidth="67.0" text="事件ID"/>
-                                <TableColumn fx:id="eName" prefWidth="123.0" text="事件内容"/>
-                                <TableColumn fx:id="eRoc" prefWidth="111.0" text="相关火箭"/>
-                                <TableColumn fx:id="eTime" prefWidth="86.0" text="时间"/>
-                                <TableColumn fx:id="eAstn" prefWidth="190.0" text="宇航员"/>
-                                <TableColumn fx:id="eMean" prefWidth="302.0" text="意义"/>
+                                <TableColumn fx:id="eID" prefWidth="67.0" text="事件ID" />
+                                <TableColumn fx:id="eName" prefWidth="123.0" text="事件内容" />
+                                <TableColumn fx:id="eRoc" prefWidth="111.0" text="相关火箭" />
+                                <TableColumn fx:id="eTime" prefWidth="86.0" text="时间" />
+                                <TableColumn fx:id="eAstn" prefWidth="190.0" text="宇航员" />
+                                <TableColumn fx:id="eMean" prefWidth="302.0" text="意义" />
                             </columns>
                         </TableView>
                     </AnchorPane>
@@ -64,38 +66,33 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <TableView fx:id="rocketTable" prefHeight="436.0" prefWidth="880.0">
                             <columns>
-                                <TableColumn fx:id="rID" prefWidth="117.65757751464844" text="ID"/>
-                                <TableColumn fx:id="rName" prefWidth="189.173828125" text="火箭名称"/>
-                                <TableColumn fx:id="rTime" prefWidth="147.89419555664062"
-                                             text="首次发射时间"/>
-                                <TableColumn fx:id="rOrbit" minWidth="0.0"
-                                             prefWidth="152.60577392578125"
-                                             text="在轨时间(-1未知或未发射)"/>
+                                <TableColumn fx:id="rID" prefWidth="117.65757751464844" text="ID" />
+                                <TableColumn fx:id="rName" prefWidth="189.173828125" text="火箭名称" />
+                                <TableColumn fx:id="rTime" prefWidth="147.89419555664062" text="首次发射时间" />
+                                <TableColumn fx:id="rOrbit" minWidth="0.0" prefWidth="152.60577392578125" text="在轨时间(-1未知或未发射)" />
                             </columns>
                         </TableView>
                     </AnchorPane>
                 </Tab>
                 <Tab text="宇航员表">
-                    <AnchorPane layoutY="27.5" minHeight="0.0" minWidth="0.0" prefHeight="467.5"
-                                prefWidth="880.0">
+                    <AnchorPane layoutY="27.5" minHeight="0.0" minWidth="0.0" prefHeight="467.5" prefWidth="880.0">
                         <TableView fx:id="astronautTable" prefHeight="436.0" prefWidth="880.0">
                             <columns>
-                                <TableColumn fx:id="aID" prefWidth="86.0" text="ID"/>
-                                <TableColumn fx:id="aName" prefWidth="86.0" text="姓名"/>
-                                <TableColumn fx:id="aAge" prefWidth="83.0" text="年龄"/>
-                                <TableColumn fx:id="aSex" prefWidth="71.0" text="性别"/>
+                                <TableColumn fx:id="aID" prefWidth="86.0" text="ID" />
+                                <TableColumn fx:id="aName" prefWidth="86.0" text="姓名" />
+                                <TableColumn fx:id="aAge" prefWidth="83.0" text="年龄" />
+                                <TableColumn fx:id="aSex" prefWidth="71.0" text="性别" />
                             </columns>
                         </TableView>
                     </AnchorPane>
                 </Tab>
                 <Tab text="用户表">
-                    <AnchorPane fx:id="userBlock" layoutY="27.5" minHeight="0.0" minWidth="0.0"
-                                prefHeight="467.5" prefWidth="880.0">
+                    <AnchorPane fx:id="userBlock" layoutY="27.5" minHeight="0.0" minWidth="0.0" prefHeight="467.5" prefWidth="880.0">
                         <TableView fx:id="userTable" prefHeight="467.5" prefWidth="880.0">
                             <columns>
-                                <TableColumn fx:id="uid" prefWidth="86.0" text="ID"/>
-                                <TableColumn fx:id="uName" prefWidth="86.0" text="用户名"/>
-                                <TableColumn fx:id="uPswd" prefWidth="500" text="密码的SHA256值"/>
+                                <TableColumn fx:id="uid" prefWidth="86.0" text="ID" />
+                                <TableColumn fx:id="uName" prefWidth="86.0" text="用户名" />
+                                <TableColumn fx:id="uPswd" prefWidth="500" text="密码的SHA256值" />
                                 <!--                                                    <TableColumn prefWidth="70.3583984375" text="管理员" />-->
                             </columns>
                         </TableView>
@@ -109,33 +106,30 @@
                     <media>
                         <Media>
                             <source>
-                                <URL value="@../../../../media/background.mp4"/>
+                                <URL value="@../../../../media/background.mp4" />
                             </source>
                         </Media>
                     </media>
                 </MediaPlayer>
             </mediaPlayer>
             <viewport>
-                <Rectangle2D height="720.0" width="1280.0"/>
+                <Rectangle2D height="720.0" width="1280.0" />
             </viewport>
         </MediaView>
     </Pane>
-    <Button fx:id="historyButton" layoutX="104.0" layoutY="570.0" mnemonicParsing="false" onAction="#historyClick"
-            prefHeight="50.0" prefWidth="100.0" text="历史回顾">
+    <Button fx:id="historyButton" layoutX="104.0" layoutY="570.0" mnemonicParsing="false" onAction="#historyClick" prefHeight="50.0" prefWidth="100.0" text="历史回顾">
         <font>
-            <Font name="Xingkai TC Bold" size="18.0"/>
+            <Font name="Xingkai TC Bold" size="18.0" />
         </font>
     </Button>
-    <Button fx:id="pauseButton" layoutX="450.0" layoutY="569.0" mnemonicParsing="false" onAction="#pauseButtonClick"
-            prefHeight="50.0" prefWidth="100.0" text="暂停" visible="false">
+    <Button fx:id="pauseButton" layoutX="450.0" layoutY="569.0" mnemonicParsing="false" onAction="#pauseButtonClick" prefHeight="50.0" prefWidth="100.0" text="暂停" visible="false">
         <font>
-            <Font name="Xingkai TC Bold" size="18.0"/>
+            <Font name="Xingkai TC Bold" size="18.0" />
         </font>
     </Button>
-    <Button fx:id="listButton" layoutX="800.0" layoutY="569.0" mnemonicParsing="false" onAction="#listButtonClick"
-            prefHeight="50.0" prefWidth="100.0" text="列表详情">
+    <Button fx:id="listButton" layoutX="800.0" layoutY="569.0" mnemonicParsing="false" onAction="#listButtonClick" prefHeight="50.0" prefWidth="100.0" text="列表详情">
         <font>
-            <Font name="Xingkai TC Bold" size="18.0"/>
+            <Font name="Xingkai TC Bold" size="18.0" />
         </font>
     </Button>
 

@@ -1,24 +1,32 @@
 package com.system.JavaFX.view;
 
+import com.system.JavaFX.pagemodule.SceneLoader;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
 
 public class ProjectApplication extends Application {
     public static boolean isLogin = false;
     public static boolean isAdmin = false;
     public static boolean isRoot = false;
+    public static Map<String, Object> configData;
+    static {
+        try (InputStream inputStream = ProjectApplication.class.getClassLoader().getResourceAsStream("config.yaml")) {
+            Yaml yaml = new Yaml();
+            // 读取 YAML 文件并转换为 Map
+            configData = yaml.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
+        }
+    }
     @Override
     public void start(@NotNull Stage stage) throws IOException {
-        FXMLLoader fxmlLoader1 = new FXMLLoader(ProjectApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader1.load(), 600, 400);
-        stage.setResizable(false);
-        stage.setTitle("中国航空航天展示系统");
-        stage.setScene(scene);
+        SceneLoader.loadScene(stage, "hello-view.fxml", 600, 400, "中国航空航天展示系统");
         stage.show();
 
         Stage stage1 = new Stage();
@@ -27,7 +35,12 @@ public class ProjectApplication extends Application {
             stage.close();
             if (isLogin) {
                 try {
-                    loadScene(stage1);
+                    SceneLoader.loadScene(
+                            stage1,
+                            "menu-view.fxml",
+                            1000, 680,
+                            "中国航空航天展示系统面板"
+                    );
                     stage1.show();
                 } catch (IOException ignored) {}
             }
@@ -40,13 +53,6 @@ public class ProjectApplication extends Application {
         });
     }
 
-    public static void loadScene(@NotNull Stage stage1) throws IOException {
-        FXMLLoader fxmlLoader2 = new FXMLLoader(ProjectApplication.class.getResource("menu-view.fxml"));
-        Scene scene2 = new Scene(fxmlLoader2.load(), 1000, 680);
-        stage1.setResizable(false);
-        stage1.setTitle("中国航空航天展示系统面板");
-        stage1.setScene(scene2);
-    }
     public static void launch(String ... args) {
         Application.launch(args);
     }

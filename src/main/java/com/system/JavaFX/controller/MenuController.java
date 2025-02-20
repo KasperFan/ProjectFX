@@ -12,6 +12,7 @@ import com.system.DAO.Impl.RocketDaoImpl;
 import com.system.DAO.Impl.UserDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -23,12 +24,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import com.system.DAO.entity.Event;
 import javafx.stage.Stage;
 
+import static com.system.JavaFX.pagemodule.SceneLoader.loadScene;
 import static com.system.JavaFX.view.ProjectApplication.isAdmin;
 import static com.system.JavaFX.view.ProjectApplication.isRoot;
 
@@ -109,11 +112,7 @@ public class MenuController {
     @FXML
     private MediaView mediaView;
 
-    final RocketDaoImpl rocketDao = new RocketDaoImpl("rocket",
-            "rocketID",
-            "rocketName",
-            "launchDate",
-            "in_orbitTime");
+    final RocketDaoImpl rocketDao = new RocketDaoImpl();
     final EventDao eventDao = new EventDaoImpl();
     final AstronautDao astronautDao = new AstronautDaoImpl();
     final UserDao userDao = new UserDaoImpl("user",
@@ -372,23 +371,17 @@ public class MenuController {
                     new Alert(Alert.AlertType.INFORMATION, "查询成功，请前往列表详情查看").showAndWait();
                     break;
                 case "火箭":
-                    try (RocketDaoImpl rocketDao = new RocketDaoImpl("rocket",
-                            "rocketID",
-                            "rocketName",
-                            "launchDate",
-                            "in_orbitTime")) {
-                        try {
-                            initializeRocket(rocketDao.getAll(textField.getText()));
-                        } catch (Exception ex) {
-                            new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
-                            throw new RuntimeException(ex);
-                        }
+                    try {
+                        initializeRocket(rocketDao.getAll(textField.getText()));
+                    } catch (Exception ex) {
+                        new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
+                        throw new RuntimeException(ex);
                     }
                     stage.close();
                     new Alert(Alert.AlertType.INFORMATION, "查询成功，请前往列表详情查看").showAndWait();
                     break;
                 case "宇航员":
-                    try (AstronautDaoImpl astronautDao = new AstronautDaoImpl()) {
+                    try {
                         initializeAstronaut(astronautDao.getAll(textField.getText()));
                     } catch (Exception ex) {
                         new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
@@ -397,11 +390,7 @@ public class MenuController {
                     new Alert(Alert.AlertType.INFORMATION, "查询成功，请前往列表详情查看").showAndWait();
                     break;
                 case "用户":
-                    try (UserDaoImpl userDao = new UserDaoImpl("user",
-                            "uid",
-                            "name",
-                            "pswd_sha",
-                            "is_admin")) {
+                    try {
                         initializeUser(userDao.getAll(textField.getText()));
                     } catch (Exception ex) {
                         new Alert(Alert.AlertType.ERROR, "查询失败").showAndWait();
@@ -659,11 +648,7 @@ public class MenuController {
                     if (new Alert(Alert.AlertType.CONFIRMATION, "确定要删除该条记录吗？").showAndWait().get() != ButtonType.OK) {
                         return;
                     }
-                    try (RocketDaoImpl rocketDao = new RocketDaoImpl("rocket",
-                            "rocketID",
-                            "rocketName",
-                            "launchDate",
-                            "in_orbitTime")) {
+                    try {
                         if (rocketDao.delete(rocket.getRocketID())) {
                             new Alert(Alert.AlertType.INFORMATION, "删除成功").showAndWait();
                             initData();
@@ -682,7 +667,7 @@ public class MenuController {
                     if (new Alert(Alert.AlertType.CONFIRMATION, "确定要删除该条记录吗？").showAndWait().get() != ButtonType.OK) {
                         return;
                     }
-                    try (AstronautDaoImpl astronautDao = new AstronautDaoImpl()) {
+                    try {
                         if (astronautDao.delete(astronaut.getId())) {
                             new Alert(Alert.AlertType.INFORMATION, "删除成功").showAndWait();
                             initData();
@@ -701,11 +686,7 @@ public class MenuController {
                     if (new Alert(Alert.AlertType.CONFIRMATION, "确定要删除该条记录吗？").showAndWait().get() != ButtonType.OK) {
                         return;
                     }
-                    try (UserDaoImpl userDao = new UserDaoImpl("user",
-                            "uid",
-                            "name",
-                            "pswd_sha",
-                            "is_admin")) {
+                    try {
                         if (userDao.delete(user.getId())) {
                             new Alert(Alert.AlertType.INFORMATION, "删除成功").showAndWait();
                             initData();
@@ -945,5 +926,27 @@ public class MenuController {
                     break;
             }
         });
+    }
+
+    @FXML
+    public void showPhoto(ActionEvent actionEvent) {
+        Tab selectedItem = tabPane.getSelectionModel().getSelectedItem();
+        switch (selectedItem.getText()) {
+            case "宇航员表" -> {
+                Astronaut astronaut = astronautTable.getSelectionModel().getSelectedItem();
+                if (astronaut == null) {
+                    new Alert(Alert.AlertType.ERROR, "请选择要展示照片的宇航员记录").showAndWait();
+                    return;
+                }
+                Stage stage = new Stage();
+                try {
+                    loadScene(stage, "photo-view.fxml", 356, 373, "宇航员照片展示", astronaut);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace(System.err);
+                }
+            }
+            default -> new Alert(Alert.AlertType.ERROR, "仅允许展示宇航员照片").showAndWait();
+        }
     }
 }

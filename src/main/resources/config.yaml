@@ -1,4 +1,26 @@
 dbConfig:
-  JDBCurl : jdbc:mysql://localhost:3306/Java_CADS?&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
-  userName : root
-  passWord : ## Put your database access password here ##
+  JDBCDriverClass: com.mysql.cj.jdbc.Driver
+  JDBCurl: jdbc:mysql://localhost:3306/Java_CADS?&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  userName: root
+  passWord: # Put your database access password here #
+astronautTable:
+  tableName: astronaut
+  idCol: aid
+  nameCol: name
+  ageCol: age
+  genCol: sex
+  imageCol: imageurl
+eventTable:
+  tableName: event
+  idCol: eid
+  titleCol: title
+  timeCol: time
+  meaningCol: mean
+  eventToRocketTable: ev_roc
+  eventToAstronaut: ev_ast
+rocketTable:
+  tableName: rocket
+  idCol: rid
+  nameCol: r_name
+  launchCol: launch_date
+  orbitCol: in_orbitTime

@@ -18,4 +18,6 @@ module com.system {
     exports com.system.DAO.Impl;
     exports com.system;
     opens com.system to javafx.fxml;
+    exports com.system.JavaFX.pagemodule;
+    opens com.system.JavaFX.pagemodule to javafx.fxml;
 }

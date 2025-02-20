@@ -5,6 +5,7 @@ public class Astronaut {
     private String name;
     private int age;
     private String sex;
+    private String photoUrl;
 
     public Astronaut(String name, int age, String sex) {
         this.name = name;
@@ -17,6 +18,14 @@ public class Astronaut {
         this.name = name;
         this.age = age;
         this.sex = sex;
+    }
+
+    public Astronaut(int id, String name, int age, String sex, String photoUrl) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+        this.photoUrl = photoUrl;
     }
 
     public void setId(int id) {
@@ -51,6 +60,10 @@ public class Astronaut {
         return sex;
     }
 
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
     @Override
     public String toString() {
         return "Astronaut{" +
@@ -58,6 +71,7 @@ public class Astronaut {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", sex='" + sex + '\'' +
+                ", photoName='" + photoUrl + '\'' +
                 '}';
     }
 }
